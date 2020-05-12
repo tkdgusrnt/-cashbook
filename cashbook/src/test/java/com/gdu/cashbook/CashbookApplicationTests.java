@@ -1,4 +1,4 @@
-package com.gdu.cashbook1;
+package com.gdu.cashbook;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
