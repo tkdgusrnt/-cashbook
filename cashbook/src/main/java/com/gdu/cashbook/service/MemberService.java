@@ -14,6 +14,10 @@ public class MemberService {
 	@Autowired
 	private MemberMapper memberMapper;
 	
+	public String memberIdCheck(String memberIdCheck) {
+		return memberMapper.selectMemberId(memberIdCheck); //아이디가 리턴되거나 , 결과물이없을시  null이 리턴된다.
+	}
+	
 	public void addMember(Member member) { // 회원가입을 위한  insert 서비스
 		memberMapper.insertMember(member);
 	}

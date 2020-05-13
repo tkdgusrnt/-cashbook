@@ -1,8 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
+<style>
+	h1{
+		margin: 60px;
+	}
+	.title{
+		text-align: center;
+	}
+	 #loginMsg{
+	 	color: purple;
+	 }
+
+</style>
+
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -15,29 +28,63 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script>
+ let helperInit = function () {
+	$("#idHelper").text("");
+	$("#pwHelper").text("");
+}
+
 	$(document).ready(function () {
 		$("#btn").click(function () {
-			//유효성 검사 코드를 구현해보자 return;
 			
+			//유효성 검사 코드를 구현해보자 return;
+			 if($("#memberId").val().length<4){
+				   $("#idHelper").text("아이디가 일치하지 않습니다");
+				   $("#memberId").focus();
+				   return;   
+			 }
+			 helperInit();
+			 if($("#memberPw").val().length<4){
+				 $("#pwHelper").text("비밀번호를 확인해주시기 바랍니다")
+				 $("#memberPw").focus();
+				 return;
+			 } 
+			 helperInit();
+			 
 			$("#loginForm").submit();
 		});
 	});
 </script>
 </head>
 <body>
+<div class="container">
+<div class="title">
 	<h1>로그인</h1>
-	<form id="loginForm" method="post" action="/login">
-		<div>
+	<form id="loginForm" method="post" action="/login" class="was-validated">
+		<div class="form-group">
 			member_id : 
-			<input type="text" id="memberId" name="memberId">
+			<input type="text" id="memberId" name="memberId" class="form-control" required>
+			<div class="valid-feedback">Valid.</div>
+			<div class="invalid-feedback">Please fill out this field.</div>
+			<span id="idHelper"></span>
 		</div>
-		<div>
+		<div class="form-group">
 			member_pw : 
-			<input type="password" id="memberPw" name="memberPw">
+			<input type="password" id="memberPw" name="memberPw" class="form-control" required>
+			<div class="valid-feedback">Valid.</div>
+    		<div class="invalid-feedback">Please fill out this field.</div>
+			<span id="pwHelper"></span>
 		</div>
 		<div>
-			<button type="button" id="btn">로그인</button>
+			<span th:text="${msg}" id="loginMsg"></span>
+		</div>
+		<div>
+			<button type="button" id="btn" class="btn btn-primary">로그인</button>
 		</div>
 	</form>
+	
+	</div>
+	<!-- title -->
+</div>
+ <!--container  -->
 </body>
 </html>

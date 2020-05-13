@@ -3,6 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	<style>
+		h1{
+			margin: 50px;
+		}
+		.title{
+			text-align: center;
+		}
+		 form{
+		 	margin: 0 auto;
+		 	width: 500px;
+		 }
+		  #btn{
+		  	width: 500px;
+		  	margin-top: 30px;
+		  }
+		   #idMsg{
+	 	color: purple;
+	 }
+		 
+	</style>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -15,6 +35,7 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script>
+<!--클릭시 경고창 리셋-->
 let helperInit = function(){
 	$('#idHelper').text("");
 	$('#pwHelper').text("");
@@ -24,7 +45,7 @@ let helperInit = function(){
 	$('#emailHelper').text("");
 }
 
-
+<!--document 가 준비되면  클릭 이벤트시 어떤일을 할것인가-->
 	$(document).ready(function () {
 		$('#btn').click(function () {
 		
@@ -61,51 +82,79 @@ let helperInit = function(){
 	  }
 			
 	 });
+	
+	<!--중복확인 폼 클릭시-->
+	$('#idbtn').click(function () {
+		helperInit();
+		if($('#memberIdCheck').val().length<4){
+			$('#idHelper').text("아이디를 4글자 이상 입력해주세요");
+			$('#memberIdCheck').focus();
+		}else{
+			$('#idform').submit();
+		}
+		
 	});
+  });
 </script>
 </head>
 <body>
 <div class="container-fluid">
+<div class="title">
+<!-- content -->
 	<h1>회원가입</h1>
+	<form id="idform" method="post" action="/memberIdCheck">
+		<div class="form-group confirm">
+			아이디 중복확인:
+			<input type="text" name="memberIdCheck" id="memberIdCheck" class="form-control">
+			<button id="idbtn" type="button">중복체크</button>
+			<span id="idHelper"></span>
+			<span th:text="${msg}" id="idMsg"></span>
+		</div>			
+	</form>
+	
 	<form id="myform" method="post" action="/addMember">
-		<div>
-			아이디:
-			<input type="text" name="memberId" id="memberId">
+		<div class="form-group confirm">
+			아이디 :
+			<input type="text" th:value="${memberIdCheck}" name="memberId" id="memberId" placeholder="아이디 입력" class="form-control" readonly="readonly">
 			<span id="idHelper"></span>
 		</div>
-		<div>
+		<div class="form-group confirm">
 			비밀번호:
-			<input type="password" name="memberPw" id="memberPw">
+			<input type="password" name="memberPw" placeholder="비밀번호 입력" id="memberPw" class="form-control">
 			<span id="pwHelper"></span>
 		</div>
-		<div>
+		<div class="form-group confirm">
 			비밀번호확인:
-			<input type="password" id="memberPw2">
+			<input type="password" placeholder="비밀번호 확인" id="memberPw2" class="form-control">
 		</div>
-		<div>
+		<div class="form-group confirm">
 			사용자이름:
-			<input type="text" name="memberName" id="memberName">
+			<input type="text" name="memberName" placeholder="사용자 입력" id="memberName" class="form-control">
 			<span id="nameHelper"></span>
 		</div>
-		<div>
+		<div class="form-group confirm">
 			주소:
-			<input type="text" name="memberAddr" id="memberAddr">
+			<input type="text" name="memberAddr" placeholder="사용자 주소" id="memberAddr" class="form-control">
 			<span id="addrHelper"></span>
 		</div>
-		<div>
+		<div class="form-group confirm">
 			전화번호:
-			<input type="text" name="memberPhone" id="memberPhone">
+			<input type="text" name="memberPhone" placeholder="사용자 전화번호" id="memberPhone" class="form-control">
 			<span id="phoneHelper"></span>
 		</div>
-		<div>
+		<div class="form-group confirm">
 			이메일:
-			<input type="text" name="memberEmail" id="memberEmail">
+			<input type="text" name="memberEmail" placeholder="사용자 이메일" id="memberEmail" class="form-control">
 			<span id="emailHelper"></span>
 		</div>
 		<div>
 			<button type="button" id="btn">회원가입</button>
 		</div>
 	</form>
-</div>	
+
+	</div>
+	<!--title -->
+</div>
+<!--container-fluid -->
 </body>
 </html>
