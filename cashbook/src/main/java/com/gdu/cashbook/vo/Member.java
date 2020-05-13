@@ -1,4 +1,4 @@
-package com.gdu.cashbook.mapper;
+package com.gdu.cashbook.vo;
 
 public class Member {
 	private String memberId;
@@ -6,12 +6,12 @@ public class Member {
 	private String memberName;
 	private String memberAddr;
 	private String memberPhone;
+	private String memberEmail;
 	@Override
 	public String toString() {
 		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
 				+ ", memberAddr=" + memberAddr + ", memberPhone=" + memberPhone + ", memberEmail=" + memberEmail + "]";
 	}
-	private String memberEmail;
 	public String getMemberId() {
 		return memberId;
 	}
@@ -27,16 +27,25 @@ public class Member {
 	public String getMemberName() {
 		return memberName;
 	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((memberAddr == null) ? 0 : memberAddr.hashCode());
-		result = prime * result + ((memberEmail == null) ? 0 : memberEmail.hashCode());
-		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
-		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
-		result = prime * result + ((memberPhone == null) ? 0 : memberPhone.hashCode());
-		result = prime * result + ((memberPw == null) ? 0 : memberPw.hashCode());
-		return result;
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+	public String getMemberAddr() {
+		return memberAddr;
+	}
+	public void setMemberAddr(String memberAddr) {
+		this.memberAddr = memberAddr;
+	}
+	public String getMemberPhone() {
+		return memberPhone;
+	}
+	public void setMemberPhone(String memberPhone) {
+		this.memberPhone = memberPhone;
+	}
+	public String getMemberEmail() {
+		return memberEmail;
+	}
+	public void setMemberEmail(String memberEmail) {
+		this.memberEmail = memberEmail;
 	}
 }
