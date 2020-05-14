@@ -3,7 +3,29 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.MemberMapper">
+<!-- 회원수정 -->
+<update id="updateMember" parameterType="com.gdu.cashbook.vo.Member">
+	UPDATE 
+		member SET
+		member_addr=#{memberAddr},
+		member_phone=#{memberPhone},
+		member_email=#{memberEmail}
+	WHERE
+		member_id=#{memberId}	
+	
+</update>
 
+<!-- 회원탈퇴 -->
+<delete id="deleteMember" parameterType="com.gdu.cashbook.vo.LoginMember">
+	DELETE FROM
+		member
+	WHERE
+		member_id=#{memberId}
+	AND
+		member_pw=#{memberPw}	
+</delete>
+
+<!-- 회원정보 확인 -->
 <select id="selectMemberOne" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.Member">
 
 	SELECT
@@ -17,6 +39,7 @@
 	WHERE member_id=#{memberId}	
 </select>
 
+<!-- 회원가입 -->
  <insert id="insertMember" parameterType="com.gdu.cashbook.vo.Member">
  	INSERT INTO member(
  		member_id,
@@ -28,7 +51,7 @@
  	    member_date
  	)VALUES(
  		#{memberId},
- 		#{memberPw},
+ 		PASSWORD(#{memberPw}),
  		#{memberName},
  		#{memberAddr},
  		#{memberPhone},
@@ -37,19 +60,24 @@
  	)
  </insert>
  
+ <!-- 로그인 아이디 확인 -->
  <select id="selectLoginMember" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.LoginMember">
  	SELECT
  		member_id memberId,
  		member_pw memberPw
  	FROM member
  	WHERE member_id = #{memberId}
- 	AND member_pw = #{memberPw}
+ 	AND member_pw = PASSWORD(#{memberPw})
  </select>
  
+ <!-- 아이디 중복 확인 -->
  <select id="selectMemberId" parameterType="String" resultType="String">
  	SELECT
  	 member_id
-    FROM member
+    FROM (SELECT member_id FROM member
+    	  UNION
+    	  SELECT member_id FROM memberid
+    	  )t
     WHERE member_id=#{memberIdCheck}
  </select>
  

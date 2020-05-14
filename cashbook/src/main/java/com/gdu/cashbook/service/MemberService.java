@@ -5,14 +5,32 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.cashbook.mapper.MemberMapper;
+import com.gdu.cashbook.mapper.MemberidMapper;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
+import com.gdu.cashbook.vo.Memberid;
 
 @Service
 @Transactional  //이클래스안에서 하나라도 예외가 생길경우 취소시킨다.
 public class MemberService {
-	@Autowired
-	private MemberMapper memberMapper;
+	
+	@Autowired private MemberMapper memberMapper;
+	@Autowired private MemberidMapper memberidMapper;
+	
+	//수정
+	public void modifyMember(Member member) {
+		memberMapper.updateMember(member);
+	}
+	
+	//삭제  1
+	public void removeMember(LoginMember loginMember) {
+		Memberid memberid = new Memberid();		
+		memberid.setMemberId(loginMember.getMemberId());
+		memberidMapper.insertMemberid(memberid);
+		
+		//2
+		memberMapper.deleteMember(loginMember);
+	}
 	
 	public Member getMemberOne(LoginMember loginMember) {
 		return memberMapper.selectMemberOne(loginMember);

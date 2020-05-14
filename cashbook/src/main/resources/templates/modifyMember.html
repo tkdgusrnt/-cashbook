@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$("#btn").click(function() {
+			
+			$("#myform").submit();
+		});
+	});
+</script>
+</head>
+<body>
+	<div class="container-fluid">
+	<div class="title">
+		<h1>회원수정</h1>
+		<form id="myform" method="post" action="/modifyMember">
+			<div class="form-group confirm">
+				아이디:
+				<input type="text" th:value="${memberId}" name="memberId" id="memberId" class="form-control" readonly="readonly">
+				<span id="idHelper"></span>
+			</div>
+				사용자 이름:
+			<div class="form-group confirm">
+				<input type="text" th:value="${memberName}" name="memberName" class="form-control">
+				<span id="NameHelper"></span>
+			</div>
+				주소:
+			<div class="form-group confirm">
+				<input type="text" th:value="${memberAddr}" name="memberAddr" class="form-control">
+				<span id="AddrHelper"></span>
+			</div>
+				전화번호:
+			<div class="form-group confirm">
+				<input type="text" th:value="${memberPhone}" name="memberPhone" class="form-control">
+				<span id="PhoneHelper"></span>
+			</div>
+				이메일:
+			<div class="form-group confirm">
+				<input type="text" th:value="${memberEmail}" name="memberEmail" class="form-control">
+				<span id="EmailHelper"></span>
+			</div>
+			<div>
+				<button type="button" id="btn">수정 완료</button>
+			</div>
+		</form>
+	</div>
+	
+	</div>
+</body>
+</html>

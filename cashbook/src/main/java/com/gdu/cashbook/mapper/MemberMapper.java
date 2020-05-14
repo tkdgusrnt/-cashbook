@@ -9,6 +9,12 @@ import com.gdu.cashbook.vo.Member;
 
 
 public interface MemberMapper {
+	//수정하기
+	public void updateMember(Member member);
+	
+	//회원탈퇴
+	public void deleteMember(LoginMember loginmember);
+	
 	//회원정보
 	public Member selectMemberOne(LoginMember loginMember);
 	

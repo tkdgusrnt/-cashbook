@@ -18,6 +18,49 @@ public class MemberController {	//회원가입폼을 만들기 위한
 	@Autowired
 	private MemberService memberService;
 	
+	//회원수정
+	@GetMapping("/modifyMember")
+	public String modifyMember(Model model, HttpSession session) {
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/";
+		}
+		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
+		model.addAttribute("member", member);
+		return "modifyMember";
+	}
+	
+	@PostMapping("/modifyMember")
+	public String modifyMember(Member member,HttpSession session) {
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/";
+		}
+		memberService.modifyMember(member);
+		return "redirect:/memberInfo";
+		
+	}
+	
+	
+	//회원삭제
+	@GetMapping("/removeMember")
+	public String removeMember(HttpSession session) {
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/";
+		}
+		
+		return "removeMember"; // input type = "password" name="memberPw"
+	}
+	@PostMapping("/removeMember")
+	public String removeMember(HttpSession session, @RequestParam("memberPw") String memberPw) {
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/";
+		}
+		LoginMember loginMember = (LoginMember)(session.getAttribute("loginMember"));
+		loginMember.setMemberPw(memberPw);
+		memberService.removeMember(loginMember);
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 	//회원정보
 	@GetMapping("/memberInfo")
 	public String memberInfo(Model model, HttpSession session) {
@@ -88,6 +131,8 @@ public class MemberController {	//회원가입폼을 만들기 위한
 	}
 	
 	
+	
+	//회원가입
 	@GetMapping("/addMember")
 	public String addMember(HttpSession session) {
 		//로그인 중일떄
