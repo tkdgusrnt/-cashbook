@@ -18,6 +18,18 @@ public class MemberController {	//회원가입폼을 만들기 위한
 	@Autowired
 	private MemberService memberService;
 	
+	//회원정보
+	@GetMapping("/memberInfo")
+	public String memberInfo(Model model, HttpSession session) {
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/";
+		}
+		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
+		System.out.println(member);
+		model.addAttribute("member", member);
+		return "memberInfo";
+	}
+	
 	@PostMapping("/memberIdCheck")
 	public String memberIdCheck(Model model, HttpSession session, @RequestParam("memberIdCheck") String memberIdCheck) {
 		//로그인 중일떄
@@ -61,7 +73,7 @@ public class MemberController {	//회원가입폼을 만들기 위한
 			return "login";
 		}else { // 로그인 설공시
 			session.setAttribute("loginMember", loginMember);
-			return "redirect:/"; ///index"; 같은것이다
+			return "redirect:/home"; ///index"; 같은것이다
 		}
 		
 	}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<h1>memberInfo</h1>
+	<div th:include="/include/menu::sidemenu"></div> <!--jsp include 시  : jsp:include page="" -->
+	<div>
+		<a th:href="@{/removeMember}">회원탈퇴</a>
+		<a th:href="@{modifyMember}">정보수정</a>
+	</div>	
+	<table class="table">
+		<tr>
+			<td>아이디</td>
+			<td th:text="${member.memberId}"></td>
+		</tr>
+		<tr>
+			<td>사용자이름</td>
+			<td th:text="${member.memberName}"></td>
+		</tr>
+		<tr>
+			<td>주소</td>
+			<td th:text="${member.memberAddr}"></td>
+		</tr>
+		<tr>
+			<td>전화번호</td>
+			<td th:text="${member.memberPhone}"></td>
+		</tr>
+		<tr>
+			<td>이메일</td>
+			<td th:text="${member.memberEmail}"></td>
+		</tr>
+		<tr>
+			<td>가입날짜</td>
+			<td th:text="${member.memberDate}"></td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>
