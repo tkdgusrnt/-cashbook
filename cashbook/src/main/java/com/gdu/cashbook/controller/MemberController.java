@@ -17,6 +17,45 @@ import com.gdu.cashbook.vo.Member;
 public class MemberController {	//회원가입폼을 만들기 위한 
 	@Autowired
 	private MemberService memberService;
+	//비밀번호 찾기
+	@PostMapping("/findMemberPw")
+	public String findMemberPw(HttpSession session, Model model, Member member) {
+		int row = memberService.getMemberPw(member);
+		System.out.println(row+"<-------row");
+		String msg = "아이디와 메일을 확인하세요";
+		if(row==1) {
+			msg="비밀번호를 입력한 메일로 발송하였습니다.";
+		}	
+		model.addAttribute("msg", msg);
+		return "MemberPwView";
+		
+	}
+	
+	@GetMapping("/findMemberPw")
+	public String findMemberPw(HttpSession session) {
+		if(session.getAttribute("loginMember")!=null) {
+			return "redirect:/";
+		}
+		return "findMemberPw";
+	}
+	//아이디찾기
+	@GetMapping("/findMemberId")
+	public String findMemberId(HttpSession session) {
+		if(session.getAttribute("loginMember")!=null) {
+			return "redirect:/";
+		}
+		return "findMemberId";
+	}
+	@PostMapping("/findMemberId")
+	 public String findMemberId(HttpSession session, Model model, Member member) {
+		if(session.getAttribute("loginMember")!=null) {
+			return "redirect:/";
+		}
+		String memberIdPart= memberService.getMemberIdByMember(member);
+		System.out.println(memberIdPart+"<----memberIdPart");
+		model.addAttribute("memberIdPart", memberIdPart);
+		return "MemberIdView";
+	}
 	
 	//회원수정
 	@GetMapping("/modifyMember")

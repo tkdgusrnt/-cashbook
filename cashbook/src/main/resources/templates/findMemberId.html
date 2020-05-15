@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<!-- 유효성검사하기 -->
+<script>
+let helperInit = function () {
+	$('#nameHelper').text("");
+	$('#phoneHelper').text("");
+	$('#mailHelper').text("");
+}
+	$(document).ready(function () {
+		$('#btn').click(function() {
+			
+			if($('#memberName').val().length <4){
+				helperInit();
+				$('#nameHelper').text("이름을 제대로입력해주세요");
+				$('#memberName').focus();
+				return;
+			}
+			
+			
+			
+			
+			$("#myform").submit();
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>아이디 찾기</h1>
+	<form id="myform" method="post" th:action="@{/findMemberId}">
+		<div>
+			member_name
+			<input type="text" name="memberName" id="memberName">
+			<span id="nameHelper"></span>
+		</div>
+		<div>
+			member_phone
+			<input type="text" name="memberPhone" id="memberPhone">
+			<span id="phoneHelper"></span>
+		</div>
+		<div>
+			member_email
+			<input type="text" name="memberEmail" id="memberEmail">
+			<span id="emailHelper"></span>
+		</div>
+		<div>
+			<button id="btn" type="button">아이디찾기</button>
+		</div>
+</form>		
+</body>
+</html>

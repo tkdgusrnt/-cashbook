@@ -9,6 +9,13 @@ import com.gdu.cashbook.vo.Member;
 
 
 public interface MemberMapper {
+	//비밀번호찾기
+	
+	public int updateMemberPw(Member member);
+	
+	//아이디 찾기
+	public String selectMemberIdByMember(Member member);
+	
 	//수정하기
 	public void updateMember(Member member);
 	

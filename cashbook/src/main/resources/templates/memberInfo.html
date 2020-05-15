@@ -24,6 +24,12 @@
 		<a th:href="@{/modifyMember}">정보수정</a>
 	</div>	
 	<table class="table">
+	<tr>
+			<td>이미지</td>
+			<td>
+				<img th:src="@{${'/upload/'+member.memberPic}}">
+			</td>
+		</tr>
 		<tr>
 			<td>아이디</td>
 			<td th:text="${member.memberId}"></td>
