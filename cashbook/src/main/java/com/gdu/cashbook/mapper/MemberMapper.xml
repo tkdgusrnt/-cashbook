@@ -72,7 +72,8 @@
  	    member_addr,
  	    member_phone,
  	    member_email,
- 	    member_date
+ 	    member_date,
+ 	    member_pic
  	)VALUES(
  		#{memberId},
  		PASSWORD(#{memberPw}),
@@ -80,7 +81,9 @@
  		#{memberAddr},
  		#{memberPhone},
  		#{memberEmail},
- 		NOW()
+ 		NOW(),
+ 		#{memberPic}
+ 		
  	)
  </insert>
  

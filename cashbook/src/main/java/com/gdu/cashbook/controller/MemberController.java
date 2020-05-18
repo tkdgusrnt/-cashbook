@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gdu.cashbook.service.MemberService;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
+import com.gdu.cashbook.vo.MemberForm;
 
 @Controller
 public class MemberController {	//회원가입폼을 만들기 위한 
@@ -53,7 +54,12 @@ public class MemberController {	//회원가입폼을 만들기 위한
 		}
 		String memberIdPart= memberService.getMemberIdByMember(member);
 		System.out.println(memberIdPart+"<----memberIdPart");
-		model.addAttribute("memberIdPart", memberIdPart);
+		if(memberIdPart == null) {
+			model.addAttribute("msg", "입력하신정보와 일치하지않습니다");
+			 return "findMemberId";
+		}
+		memberIdPart = "회원님의 아이디는" + memberIdPart + "입니다";
+ 		model.addAttribute("memberIdPart", memberIdPart);
 		return "MemberIdView";
 	}
 	
@@ -183,13 +189,16 @@ public class MemberController {	//회원가입폼을 만들기 위한
 	}
 	
 	@PostMapping("/addMember")
-	public String addMember(Member member, HttpSession session) {
+	public String addMember(MemberForm memberForm, HttpSession session) {
 		//로그인 중일떄
 		if(session.getAttribute("loginMember") !=null) {
 			return "redirect:/";
 		}
-		memberService.addMember(member);
-		System.out.println(member);
+		
+		System.out.println(memberForm+"<--------memberForm");
+		memberService.addMember(memberForm);
+		//service : memberForm -> member타입으로 변경시킨다., 폴더에 파일도저장해야한다.
+		//System.out.println(member);
 		return "redirect:/index";
 	}
 }

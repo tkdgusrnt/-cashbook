@@ -19,47 +19,68 @@
 let helperInit = function () {
 	$('#nameHelper').text("");
 	$('#phoneHelper').text("");
-	$('#mailHelper').text("");
+	$('#emailHelper').text("");
 }
 	$(document).ready(function () {
 		$('#btn').click(function() {
 			
-			if($('#memberName').val().length <4){
+			if($('#memberName').val().length ===0){
 				helperInit();
 				$('#nameHelper').text("이름을 제대로입력해주세요");
 				$('#memberName').focus();
 				return;
-			}
-			
-			
-			
-			
+			}else if($('#memberPhone').val().length === 0){
+				helperInit();
+				$('#phoneHelper').text("전화번호를 입력해주세요");
+				$('#memberPhone').focus();
+				return;
+			} else if($('#memberEmail').val().length === 0){
+				helperInit();
+				$('#emailHelper').text("메일을 입력해주세요");
+				$('#memberEmail').focus();
+				return;
+			}			
 			$("#myform").submit();
 		});
 	});
 </script>
 </head>
 <body>
-	<h1>아이디 찾기</h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-3"></div>
+		<div class="col-6">
+		<h1 style="margin: 40px; text-align: center">아이디 찾기</h1>
 	<form id="myform" method="post" th:action="@{/findMemberId}">
+		
 		<div>
 			member_name
-			<input type="text" name="memberName" id="memberName">
+			<input type="text" name="memberName" id="memberName" class="form-control">
 			<span id="nameHelper"></span>
 		</div>
 		<div>
 			member_phone
-			<input type="text" name="memberPhone" id="memberPhone">
+			<input type="text" name="memberPhone" id="memberPhone" class="form-control">
 			<span id="phoneHelper"></span>
 		</div>
 		<div>
 			member_email
-			<input type="text" name="memberEmail" id="memberEmail">
+			<input type="text" name="memberEmail" id="memberEmail" class="form-control">
 			<span id="emailHelper"></span>
 		</div>
+		<div th:text="${msg}" style="color: red;"></div>
+		<div th:text="${memberIdPart}" style="color:pink;"></div>
 		<div>
 			<button id="btn" type="button">아이디찾기</button>
 		</div>
-</form>		
+		
+		</form>	
+	</div>	
+	
+		<div class="col-3"></div>
+	</div>
+	<!-- row -->
+</div>
+<!-- container -->
 </body>
 </html>

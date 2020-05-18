@@ -1,6 +1,6 @@
 package com.gdu.cashbook.vo;
 
-public class Member {
+public class Member {  //table 도메인(스펙,범위)과 일치한다고해서 도메인타입(VO,DTO)
 	private String memberId;
 	private String memberPw;
 	private String memberName;
