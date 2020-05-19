@@ -3,6 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.MemberMapper">
+
+<!-- 이미지 삭제하기 -->
+<select id="selectMemberPic" parameterType="String" resultType="String">
+	SELECT member_pic
+	FROM member
+	WHERE member_id = #{memberId}
+</select>
+
 <!-- 비밀번호 찾기  순서
 	1. 사용자가 입력한 아이디와 이메일이 일치하면 비밀번호를 변경한다(랜덤문자열) updaate
 	2. 2번에서 입력한 비밀번호를   메일로전송한다.
@@ -30,9 +38,11 @@
 <update id="updateMember" parameterType="com.gdu.cashbook.vo.Member">
 	UPDATE    
 		member SET
+		member_name=#{memberName},
 		member_addr=#{memberAddr},
 		member_phone=#{memberPhone},
-		member_email=#{memberEmail}
+		member_email=#{memberEmail},
+		member_pic=#{memberPic}
 	WHERE
 		member_id=#{memberId}	
 	
@@ -45,7 +55,7 @@
 	WHERE
 		member_id=#{memberId}
 	AND
-		member_pw=#{memberPw}	
+		member_pw=PASSWORD(#{memberPw})	
 </delete>
 
 <!-- 회원정보 확인 -->

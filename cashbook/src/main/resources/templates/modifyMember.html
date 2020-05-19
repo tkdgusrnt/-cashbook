@@ -27,7 +27,12 @@
 	<div class="container-fluid">
 	<div class="title">
 		<h1>회원수정</h1>
-		<form id="myform" method="post" action="/modifyMember">
+		<form id="myform" method="post" action="/modifyMember" enctype="multipart/form-data">
+			<div class="form-group confirm">
+				이미지
+				<img th:src="@{${'/upload/'+member.memberPic}}">
+				<input type="file" name="memberPic" id="">
+			</div>
 			<div class="form-group confirm">
 				아이디:
 				<input type="text" th:value="${member.memberId}" name="memberId" id="memberId" class="form-control" readonly="readonly">

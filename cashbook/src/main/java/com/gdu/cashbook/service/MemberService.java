@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ public class MemberService {
 	@Autowired private MemberMapper memberMapper;
 	@Autowired private MemberidMapper memberidMapper;
 	@Autowired private JavaMailSender javaMailSender;
+	@Value("C:\\elicles\\git-cashbook\\cashbook\\src\\main\\resources\\static\\upload\\")
+	private String path;
 	
 	//비밀번호찾기
 	public int getMemberPw(Member member) {
@@ -59,17 +62,37 @@ public class MemberService {
 	}
 	
 	//수정
-	public void modifyMember(Member member) {
-		memberMapper.updateMember(member);
-	}
+//	public void modifyMember(Member member) {
+//		//1.멤버 수정할 이미지 파일을 가져와야한다.
+//		String memberPic = memberMapper.selectMemberPic(member.getMemberPic());
+//		// 파일수정하기
+//		File file = new File(path+memberPic);
+//		if(!file.exists()) {
+//			file.mkdir();
+//		}
+//		Memberid memberid = new Memberid();
+//		memberid.setMemberId(member.getMemberId());
+//		memberidMapper.insertMemberid(memberid);
+//		
+//		memberMapper.updateMember(member);
+//	}
 	
 	//삭제  1
 	public void removeMember(LoginMember loginMember) {
+		//1.멤버 이미지 파일 삭제 , 파일 이름을 가져와야한다.SELECT member_pic FROM member
+		String memberPic = memberMapper.selectMemberPic(loginMember.getMemberId());
+		
+		// 그다음 파일삭제
+		File file = new File(path+memberPic);
+		if(file.exists()) {
+			file.delete();
+		}
+		//2.
 		Memberid memberid = new Memberid();		
 		memberid.setMemberId(loginMember.getMemberId());
 		memberidMapper.insertMemberid(memberid);
 		
-		//2
+		//3.
 		memberMapper.deleteMember(loginMember);
 	}
 	
@@ -79,6 +102,34 @@ public class MemberService {
 	
 	public String memberIdCheck(String memberIdCheck) {
 		return memberMapper.selectMemberId(memberIdCheck); //아이디가 리턴되거나 , 결과물이없을시  null이 리턴된다.
+	}
+	
+//수정
+	public void modifyMember(MemberForm memberForm) {
+		MultipartFile mf = memberForm.getMemberPic();
+		String originName = mf.getOriginalFilename();
+		int lastDot = originName.lastIndexOf(".");
+		String extension = originName.substring(lastDot);
+		String memberPic = memberForm.getMemberId()+extension;
+		
+		Member member = new Member();
+		member.setMemberId(memberForm.getMemberId());
+		member.setMemberPw(memberForm.getMemberPw());
+		member.setMemberAddr(memberForm.getMemberAddr());
+		member.setMemberDate(memberForm.getMemberDate());
+		member.setMemberEmail(memberForm.getMemberEmail());
+		member.setMemberName(memberForm.getMemberName());
+		member.setMemberPhone(memberForm.getMemberPhone());
+		member.setMemberPic(memberPic);
+		memberMapper.updateMember(member);
+		
+		File file = new File(path+memberPic);
+		try {
+			mf.transferTo(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		} 
 	}
 	
 	public void addMember(MemberForm memberForm) { // 회원가입을 위한  insert 서비스
@@ -110,11 +161,11 @@ public class MemberService {
 		
 		System.out.println(member+"<---MemberService.addMember:member");
 		memberMapper.insertMember(member);
+		// /슬러시는 Linux \ 역슬러시는 Window
 		
-		String path = "C:\\elicles\\git-cashbook\\cashbook\\src\\main\\resources\\static\\upload";
 		
 		//2.파일을저장한다.
-		File file = new File(path+"\\"+memberPic);
+		File file = new File(path+memberPic);
 		try {
 			mf.transferTo(file);
 		} catch (Exception e) {

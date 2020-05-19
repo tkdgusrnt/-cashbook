@@ -9,6 +9,12 @@ import com.gdu.cashbook.vo.Member;
 
 
 public interface MemberMapper {
+	
+	//
+	
+	//이미지 삭제
+	public String selectMemberPic(String memberId);
+	
 	//비밀번호찾기
 	
 	public int updateMemberPw(Member member);

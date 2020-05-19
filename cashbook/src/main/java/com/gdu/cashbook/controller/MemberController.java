@@ -1,5 +1,7 @@
 package com.gdu.cashbook.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gdu.cashbook.service.MemberService;
 import com.gdu.cashbook.vo.LoginMember;
@@ -75,11 +78,11 @@ public class MemberController {	//회원가입폼을 만들기 위한
 	}
 	
 	@PostMapping("/modifyMember")
-	public String modifyMember(Member member,HttpSession session) {
+	public String modifyMember(MemberForm memberForm,HttpSession session) throws IOException {
 		if(session.getAttribute("loginMember")==null) {
 			return "redirect:/";
 		}
-		memberService.modifyMember(member);
+		memberService.modifyMember(memberForm);
 		return "redirect:/memberInfo";
 		
 	}
@@ -189,13 +192,20 @@ public class MemberController {	//회원가입폼을 만들기 위한
 	}
 	
 	@PostMapping("/addMember")
-	public String addMember(MemberForm memberForm, HttpSession session) {
+	public String addMember(RedirectAttributes rttr, MemberForm memberForm, HttpSession session) {
 		//로그인 중일떄
 		if(session.getAttribute("loginMember") !=null) {
 			return "redirect:/";
 		}
 		
 		System.out.println(memberForm+"<--------memberForm");
+		
+		if(memberForm.getMemberPic()!=null) {
+			if(!memberForm.getMemberPic().getContentType().equals("image/jpeg") && !memberForm.getMemberPic().getContentType().equals("image/png") && !memberForm.getMemberPic().getContentType().equals("image/gif")){
+				rttr.addFlashAttribute("msg1", "파일명을 확인해주시기 바랍니다.");
+				return "redirect:/addMember";
+			} 
+		}
 		memberService.addMember(memberForm);
 		//service : memberForm -> member타입으로 변경시킨다., 폴더에 파일도저장해야한다.
 		//System.out.println(member);
