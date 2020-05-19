@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>2020년 가계부</h1>
+		<div th:include="/include/menu::sidemenu"></div> <!--jsp include 시  : jsp:include page="" -->
+		<h3 th:text="${#dates.format(day, 'yyyy-MM-dd')}"></h3>
+		<div th:text="${day}"></div>
+		
+		<div>
+			<a href="">이전</a>
+			<a href="">다음</a>
+		</div>
+		<table class="table-bordered">
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th>카테고리</th>
+					<th>수입</th>
+					<th>지출</th>
+					<th>장소</th>
+					<th>메모</th>
+					<th>삭제</th>
+					<th>수정</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="cash, index : ${cashList}">
+				<td th:text="${index.index}+1"></td>
+				<!-- 카테고리 -->
+				<td th:text="${cash.categoryName}"></td>
+				
+				<!-- thymeleaf if~else : if/unless -->
+				<td th:if="${cash.cashFind} =='수입'" th:text="${'+' +cash.cashPrice}"></td>
+				<td th:unless="${cash.cashFind} =='수입'"></td>
+				<td th:if="${cash.cashFind} == '지출'" th:text="${'-' +cash.cashPirce}"></td>
+				<td th:unless="${cash.cashFind} =='지출'"></td>
+				<td th:text="${cash.cashPlace}"></td>
+				<td th:text="${cash.cashMemo}"></td>
+				<td><a href="">삭제</a></td>
+				<td><a href="">수정</a></td>
+				
+				</tr>
+			</tbody>
+		</table>
+		<a href="">입력</a>
+		
+	</div>
+</body>
+</html>
