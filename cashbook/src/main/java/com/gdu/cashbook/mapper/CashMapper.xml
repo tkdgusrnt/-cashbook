@@ -3,6 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.CashMapper">
+
+<!-- 리스트가져오기 -->
 <select id="selectCashListByDate" parameterType="com.gdu.cashbook.vo.Cash" resultType="com.gdu.cashbook.vo.Cash">
 	SELECT
 		cash_no cashNo,
@@ -18,4 +20,24 @@
 	cash_no ASC
 </select>
 
+<!-- 합계금액 구하기 --> 
+<select id="selectCashFindSum" parameterType="com.gdu.cashbook.vo.Cash" resultType="Integer">
+	SELECT
+	(SELECT 
+	SUM(cash_price)
+	FROM cash
+	WHERE 
+	member_id=#{memberId} AND
+	cash_find='수입' AND
+	cash_date=#{cashDate})
+	-
+	(SELECT
+	 SUM(cash_price)
+	 FROM cash
+	 WHERE
+	 member_id=#{memberId} AND
+	 cash_find='지출' AND
+	 cash_date=#{cashDate})
+	FROM dual
+</select>
 </mapper>

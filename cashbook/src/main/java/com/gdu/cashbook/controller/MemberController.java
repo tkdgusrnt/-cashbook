@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gdu.cashbook.service.MemberService;
@@ -78,9 +79,17 @@ public class MemberController {	//회원가입폼을 만들기 위한
 	}
 	
 	@PostMapping("/modifyMember")
-	public String modifyMember(MemberForm memberForm,HttpSession session) throws IOException {
+	public String modifyMember(RedirectAttributes rttr, MemberForm memberForm,HttpSession session){
 		if(session.getAttribute("loginMember")==null) {
 			return "redirect:/";
+		}
+		//이미지 파일이 입력됐을떄
+		MultipartFile mf = memberForm.getMemberPic();
+		if(memberForm.getMemberPic() !=null && !mf.getOriginalFilename().equals("")) {
+		if(!memberForm.getMemberPic().getContentType().equals("image/jpeg") && !memberForm.getMemberPic().getContentType().equals("image/png") && !memberForm.getMemberPic().getContentType().equals("image/gif")){
+			rttr.addFlashAttribute("msg1", "파일명을 확인해주시기 바랍니다.");
+		
+			}
 		}
 		memberService.modifyMember(memberForm);
 		return "redirect:/memberInfo";

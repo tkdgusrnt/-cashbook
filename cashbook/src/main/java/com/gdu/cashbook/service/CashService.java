@@ -1,6 +1,8 @@
 package com.gdu.cashbook.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,13 @@ public class CashService {
 	private CashMapper cashMapper;
 
 
-	public List<Cash> getCashListByDate(Cash cash){
-		return cashMapper.selectCashListByDate(cash);
+	public Map<String, Object> getCashListByDate(Cash cash){
+		List<Cash> cashList =cashMapper.selectCashListByDate(cash);
+		int cashFindSum = cashMapper.selectCashFindSum(cash);
+		Map<String, Object> map =new HashMap<>();
+		map.put("cashList", cashList);
+		map.put("cashFindSum", cashFindSum);
+		return map;
 		
 	}
 	

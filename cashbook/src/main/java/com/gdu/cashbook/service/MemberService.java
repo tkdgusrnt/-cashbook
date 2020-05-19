@@ -106,12 +106,27 @@ public class MemberService {
 	
 //수정
 	public void modifyMember(MemberForm memberForm) {
+		String originMemberPic = memberMapper.selectMemberPic(memberForm.getMemberId());
 		MultipartFile mf = memberForm.getMemberPic();
 		String originName = mf.getOriginalFilename();
-		int lastDot = originName.lastIndexOf(".");
-		String extension = originName.substring(lastDot);
-		String memberPic = memberForm.getMemberId()+extension;
-		
+		System.out.println(originName+"<----originName");
+		String memberPic = null;
+		//파일이 입력안되시 그전파일이랑 이름이 같게
+		if(originName.equals("")) {
+			memberPic = originMemberPic;
+		}else { //파일확장자
+			File file = new File(path+originMemberPic);
+			//새로운 파일이 입력되면 그전파일은 삭제한다.
+			if(file.exists() && !originMemberPic.equals("default.jpg")) {
+				//exists = 파일이존재하는지 여부확인 , 반환결과가 boolean으로 파일이 존재하면 참, 없으면거짓을 반환
+				file.delete();
+			}
+			int lastDot = originName.lastIndexOf(".");
+			String extension = originName.substring(lastDot);
+			System.out.println(extension+"<-----extension");
+			memberPic = memberForm.getMemberId()+extension;
+			System.out.println(memberPic+"<-----memberPic");
+		}
 		Member member = new Member();
 		member.setMemberId(memberForm.getMemberId());
 		member.setMemberPw(memberForm.getMemberPw());
@@ -123,31 +138,44 @@ public class MemberService {
 		member.setMemberPic(memberPic);
 		memberMapper.updateMember(member);
 		
-		File file = new File(path+memberPic);
-		try {
-			mf.transferTo(file);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException();
-		} 
-	}
+		if(!originName.equals("")) {
+			//file 을 저장
+			File file = new File(path+memberPic);
+			try {
+				mf.transferTo(file);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException();
+			} 
+		}
+		}
+		
+		
+		
 	
 	public void addMember(MemberForm memberForm) { // 회원가입을 위한  insert 서비스
 		MultipartFile mf = memberForm.getMemberPic();
 		//확장자가 필요하다.
-	
 		String originName = mf.getOriginalFilename();
 //		if(mf.getContentType().equals("image/jpg") || mf.getContentType().equals("image/png")){
 //			//업로드
 //		}else {
 //			//업로드실패
 //		}
-		
 		System.out.println(originName+"<-------original");
-		int lastDot = originName.lastIndexOf("."); // mm.jpg
-		String extension = originName.substring(lastDot);
-		//새로운 이름을 생성한다 : UUID
-		String memberPic =memberForm.getMemberId()+extension;
+		String memberPic = null;
+				
+		if(originName.equals("")) {
+			memberPic = "default.jpg";
+		}else {
+			int lastDot= originName.lastIndexOf(".");
+			String extension = originName.substring(lastDot);
+			//새로운 이름을 생성한다 : UUID
+			System.out.println(extension);
+			memberPic = memberForm.getMemberId()+extension;
+			System.out.println(memberPic);
+		}
+		
 		//1.DB에 저장한다.
 		Member member = new Member();   
 		member.setMemberId(memberForm.getMemberId());

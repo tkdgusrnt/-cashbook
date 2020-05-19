@@ -11,5 +11,8 @@ public interface CashMapper {
 
 	public List<Cash> selectCashListByDate(Cash cash);
 	
+	public int selectCashFindSum(Cash cash);
+	
+	public void deleteCash(Cash cash);
 	
 }

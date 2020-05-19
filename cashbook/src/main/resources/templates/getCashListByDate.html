@@ -19,14 +19,13 @@
 	<div class="container">
 		<h1>2020년 가계부</h1>
 		<div th:include="/include/menu::sidemenu"></div> <!--jsp include 시  : jsp:include page="" -->
-		<h3 th:text="${#dates.format(day, 'yyyy-MM-dd')}"></h3>
-		<div th:text="${day}"></div>
-		
+		<h3 th:text="${day}"></h3>
 		<div>
-			<a href="">이전</a>
-			<a href="">다음</a>
+			<a th:href="@{/getCashListByDate(day=${day.plusDays(-1)})}">이전</a>
+			<a th:href="@{/getCashListByDate(day=${day.plusDays(1)})}">다음</a>
 		</div>
-		<table class="table-bordered">
+		
+		<table class="table">
 			<thead>
 				<tr>
 					<th>&nbsp;</th>
@@ -48,18 +47,21 @@
 				<!-- thymeleaf if~else : if/unless -->
 				<td th:if="${cash.cashFind} =='수입'" th:text="${'+' +cash.cashPrice}"></td>
 				<td th:unless="${cash.cashFind} =='수입'"></td>
-				<td th:if="${cash.cashFind} == '지출'" th:text="${'-' +cash.cashPirce}"></td>
+				<!-- 삼항연산자 :조건? 참값:거짓말 <td th:text="${cash.cashFind}=='지출' ? ${'-' +cash.cashPrice}:''"-->
+				<td th:if="${cash.cashFind} == '지출'" th:text="${'-' +cash.cashPrice}"></td>
 				<td th:unless="${cash.cashFind} =='지출'"></td>
+				
 				<td th:text="${cash.cashPlace}"></td>
 				<td th:text="${cash.cashMemo}"></td>
-				<td><a href="">삭제</a></td>
+				<td><a th:href="@{/removeCash(cashNo=${cash.cashNo})}">삭제</a></td>
 				<td><a href="">수정</a></td>
 				
 				</tr>
 			</tbody>
 		</table>
-		<a href="">입력</a>
-		
+			<!-- <div>(수입+지출)합계 : <span th:text="${cashFindSum}" ></span>원</div> -->
+		<div>(수입+지출)합계 : <span th:text="${#numbers.formatInteger(cashFindSum,0,'COMMA')}" ></span>원</div>
+		<div><button type="button">입력</button></div>		
 	</div>
 </body>
 </html>
