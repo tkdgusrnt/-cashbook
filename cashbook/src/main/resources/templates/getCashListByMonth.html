@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<style>
+	div.gd-left{
+		float: left;
+		width: 100px;
+		height: 100px;
+		border: 1px solid #000000;
+		margin-right: 10px;
+		margin-bottom: 10px;
+		border-radius: 5px;
+		
+	}
+	div.gd-clear{
+		clear: both;
+		margin-left: 10px;
+		border-radius: 5px;
+		color:red;
+	}
+	div.gd-title{
+		height: 30px;
+		background-color: pink;
+	}
+	.gd-blue{
+		color : blue;
+	}
+	
+	.gd-red{
+		color : red;
+	}
+</style>
+</head>
+<body>
+<div class="container-fluid">
+	<h1>월별 달력만들기</h1>
+	<div th:include="/include/menu::sidemenu"></div> <!--jsp include 시  : jsp:include page="" -->
+		<h3 th:text="${#temporals.format(day, 'yyyy-MM')}"></h3>
+		<div>
+			<a th:href="@{/getCashListByMonth(day=${day.plusMonths(-1)})}">이전</a>
+			<a th:href="@{/getCashListByMonth(day=${day.plusMonths(1)})}">다음</a>
+		</div>
+		<div class="gd-left gd-clear gd-title">일</div>
+		<div class="gd-left gd-title">월</div>
+		<div class="gd-left gd-title">화</div>
+		<div class="gd-left gd-title">수</div>
+		<div class="gd-left gd-title">목</div>
+		<div class="gd-left gd-title">금</div>
+		<div class="gd-left gd-title">토</div>	
+		
+		<!-- 5월달 lastDay ==31 -->
+		<div th:each="i, index: ${#numbers.sequence(1,lastDay+(firstDayOfWeek-1))}"
+			 th:class="${index.index%7}==0 ? 'gd-clear gd-left': gd-left" >
+			 <div th:text="${i-(firstDayOfWeek-1)}>0 ? ${i-(firstDayOfWeek-1)}:''"></div><!-- 날짜 -->
+			 <div th:each="dp:${dayAndPriceList}">		 <!-- 수입지출함 -->
+			 	<span th:if="${i-(firstDayOfWeek-1)}==${dp.day}">
+			 		<span th:class="${dp.price}>=0? 'gd-blue':'gd-red'" th:text="${dp.price}"></span>
+			 	
+			</span>
+		</div>
+	</div>
+</div>		
+</body>    
+</html>

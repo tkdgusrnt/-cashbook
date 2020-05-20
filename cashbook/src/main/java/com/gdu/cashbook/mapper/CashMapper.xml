@@ -4,6 +4,26 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.CashMapper">
 
+<!-- 리스트 삭제하기 -->
+<delete id="deleteCash" parameterType="com.gdu.cashbook.vo.Cash">
+	DELETE FROM
+	cash
+	WHERE
+	cash_no =#{cashNo}
+</delete>
+
+<!-- 월별 총액가져오기 -->
+<select id="selectDayAndPriceList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.DayAndPrice">
+	SELECT DAY(cash_date) as day,
+		   SUM(CASE WHEN cash_find='수입' THEN cash_price
+		   		WHEN cash_find='지출' THEN -cash_price END) as price
+    FROM cash
+    WHERE member_id =#{memberId}
+    AND YEAR(cash_date) = #{year}
+    AND MONTH(cash_date) = #{month}
+    GROUP BY DAY(cash_date)
+</select>
+
 <!-- 리스트가져오기 -->
 <select id="selectCashListByDate" parameterType="com.gdu.cashbook.vo.Cash" resultType="com.gdu.cashbook.vo.Cash">
 	SELECT
@@ -21,10 +41,10 @@
 </select>
 
 <!-- 합계금액 구하기 --> 
-<select id="selectCashFindSum" parameterType="com.gdu.cashbook.vo.Cash" resultType="Integer">
+<select id="selectCashFindSum" parameterType="com.gdu.cashbook.vo.Cash" resultType="int">
 	SELECT
 	(SELECT 
-	SUM(cash_price)
+	IFNULL(SUM(cash_price),0)
 	FROM cash
 	WHERE 
 	member_id=#{memberId} AND
@@ -32,7 +52,7 @@
 	cash_date=#{cashDate})
 	-
 	(SELECT
-	 SUM(cash_price)
+	 IFNULL(SUM(cash_price),0)
 	 FROM cash
 	 WHERE
 	 member_id=#{memberId} AND
