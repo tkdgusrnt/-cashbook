@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gdu.cashbook.service.CashService;
 import com.gdu.cashbook.vo.Cash;
+import com.gdu.cashbook.vo.Category;
 import com.gdu.cashbook.vo.DayAndPrice;
 import com.gdu.cashbook.vo.LoginMember;
 import com.sun.mail.iap.Response;
@@ -30,6 +31,43 @@ import com.sun.mail.iap.Response;
 @Controller
 public class CashController {
 	@Autowired CashService cashService;
+	//가게부 수정하기
+	@GetMapping("/modifyCash")
+	public String modifyCash(Model model, HttpSession session, @RequestParam(value="cashNo")int cashNo,@RequestParam(value="day", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/";
+		}
+		if(day==null) {
+			day = LocalDate.now();
+		}
+			Cash cash = cashService.getCashOne(cashNo);
+			System.out.println(cash+"<-------cash");
+			
+			List<Category> categoryList = cashService.getCategoryList();
+			System.out.println(categoryList + " <-- categoryLIst");
+			model.addAttribute("cash", cash);
+			System.out.println(cash + " <----cash");
+			model.addAttribute("categoryList", categoryList);
+			System.out.println(categoryList + " <--categoryList");
+			model.addAttribute("year", day.getYear());
+			model.addAttribute("day", day.toString());
+			System.out.println(day + " <--day");
+			return "/modifyCash";	
+	}
+	
+
+	@PostMapping("/modifyCash")
+	public String modifyCash(Cash cash, HttpSession session) {
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/";
+		}
+		
+		 cashService.modifyCash(cash);
+		 System.out.println(cash+"<-----cash");
+		return "redirect:/getCashListByDate?day="+cash.getCashDate();
+	}	
+	
+	
 	
 	
 	@GetMapping("/removeCash")
@@ -108,7 +146,7 @@ public class CashController {
 		return "/getCashListByMonth";	
 	}
 	
-	
+	//일별 리스트
 	@GetMapping("/getCashListByDate")
 	public String getCashListByDate(Model model, HttpSession session, @RequestParam(value="day", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
 		
@@ -130,6 +168,8 @@ public class CashController {
 		
 		String loginMemberId = ((LoginMember)session.getAttribute("loginMember")).getMemberId();
 		System.out.println(loginMemberId+"<---------loginMemberId");
+		model.addAttribute("day", day);
+		System.out.println(day+"<--------day");
 		
 		Cash cash = new Cash(); // +id, date("yyyy-mm-dd")
 		cash.setMemberId(loginMemberId);
@@ -140,12 +180,11 @@ public class CashController {
 		
 		//Integer cashFindSum = (Integer)map.get("cashFindSum");
 		
-		model.addAttribute("cashList", map.get("cashList"));
+		model.addAttribute("cashList", (List<Cash>)map.get("cashList"));
 		System.out.println(map.get("cashList")+"<---------cashList");
 		model.addAttribute("cashFindSum",map.get("cashFindSum"));  
 		System.out.println(map.get("cashFindSum")+"<---------cashFindSum");
-		model.addAttribute("day", day);
-		System.out.println(day+"<--------day");
+		
 		//for(Cash c : cashList) {
 		//	System.out.println(c+"<--------c");
 		//}

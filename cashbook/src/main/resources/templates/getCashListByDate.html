@@ -17,7 +17,7 @@
 <script>
 	$(document).ready(function () {
 		$('#btn').click(function () {
-			alert(${'#msg'});
+			alert("test");
 		});
 	});
 </script>
@@ -64,8 +64,8 @@
 				
 				<td th:text="${cash.cashPlace}"></td>
 				<td th:text="${cash.cashMemo}"></td>
-				<td><a th:href="@{/removeCash(cashNo=${cash.cashNo})}">삭제<button id="btn">삭제</button></a></td>
-				<td><a href="">수정</a></td>
+				<td><a th:href="@{/removeCash(cashNo=${cash.cashNo})}">삭제</a></td>
+				<td><a th:href="@{/modifyCash(cashNo=${cash.cashNo},day=${day})}">수정</a></td>
 				
 				</tr>
 			</tbody>

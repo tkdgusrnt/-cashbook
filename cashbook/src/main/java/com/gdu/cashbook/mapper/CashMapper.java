@@ -22,4 +22,9 @@ public interface CashMapper {
 	//삭제하기
 	public void deleteCash(Cash cash);
 	
+	//수정하기
+	public int updateCash(Cash cash);
+	
+	//가게부 하나가져오기
+	public Cash selectCashOne(int cashNo);
 }

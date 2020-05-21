@@ -3,6 +3,35 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.CashMapper">
+<!-- 가게부하나가져오기 -->
+<select id="selectCashOne" resultType="com.gdu.cashbook.vo.Cash">
+	SELECT
+		cash_no cashNo,
+		cash_date cashDate,
+		cash_find cashFind,
+		category_name categoryName,
+		cash_price cashPrice,
+		cash_place cashPlace,
+		cash_memo cashMemo
+	FROM cash
+	WHERE
+		cash_no=#{cashNo}	
+		
+
+</select>
+<!-- 리스트 수정하기 -->
+<update id="updateCash" parameterType="com.gdu.cashbook.vo.Cash">
+	UPDATE
+	cash SET
+	category_name=#{categoryName},
+	cash_find=#{cashFind},
+	cash_price=#{cashPrice},
+	cash_place=#{cashPlace},
+	cash_memo=#{cashMemo},
+	cash_date=#{cashDate}
+	WHERE 
+	cash_no=#{cashNo}
+</update>
 
 <!-- 리스트 삭제하기 -->
 <delete id="deleteCash" parameterType="com.gdu.cashbook.vo.Cash">
