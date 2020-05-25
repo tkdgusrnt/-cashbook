@@ -27,7 +27,7 @@ public class MemberService {
 	@Autowired private MemberMapper memberMapper;
 	@Autowired private MemberidMapper memberidMapper;
 	@Autowired private JavaMailSender javaMailSender;
-	@Value("C:\\elicles\\git-cashbook\\cashbook\\src\\main\\resources\\static\\upload\\")
+	@Value("C:\\spring eclipse\\spring work_space\\maven.1590387003359\\cashbook\\src\\main\\resources\\static\\upload\\")
 	private String path;
 	
 	//비밀번호찾기
