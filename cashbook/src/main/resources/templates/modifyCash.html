@@ -17,9 +17,9 @@
 
 <script>
 	$(document).ready(function () {
-		$('#btn').click(function () {
+		$('#modifybtn').click(function () {
 			
-			$('#myform').Submit();
+			$('#modifyform').submit();
 		});
 	});
 </script>
@@ -29,16 +29,16 @@
 		<div th:include="/include/menu::sidemenu"></div> <!--jsp include 시  : jsp:include page="" -->
 			<h1 th:text="${year} + '년 가계부'"></h1>
 			<div>가계부 수정</div>
-		<form id="myform" method="post" action="/modifyCash">
+		<form id="modifyform" method="post" action="/modifyCash">
 			<input type="hidden" name="cashNo" th:value="${cash.cashNo}">
 			<table class="table">
 			
 			<tr>
 					<th><label for="categoryName">카테고리</label></th>
 					<td>
-						<select id="categoryName" name="cashgoryName">
+						<select id="categoryName" name="categoryName">
 							<option value="">카테고리를 선택하세요</option>
-							<option th:each="category:${categoryList}" th:value="${category.categoryName}" th:text="${category.categoryName}"></option>
+							<option th:each="category:${categoryList}" th:value="${category.categoryName}" th:text="${category.categoryName}" th:selected="${category.categoryName eq cash.categoryName}"></option>
 						</select>
 					</td>
 				</tr>
@@ -78,7 +78,7 @@
 				</tr>
 			</table>
 			<div>
-				<button id="btn" type="button">입력</button>
+				<button id="modifybtn" type="button">수정완료</button>
 			</div>
 		</form>	
 	</div>

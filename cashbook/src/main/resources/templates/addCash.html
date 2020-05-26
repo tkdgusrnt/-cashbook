@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	html, body{
+			margin:0;
+			height: 100%;
+	}
+		   #box{
+		   	text-align: center;
+		   	height: 100%;
+		   	width: 200px;
+		   	margin:0;
+		   	float: left;
+		   	background:#3498db;
+		   }
+		   #list{
+		   	margin-top: 20px;
+		   	height: 90%;
+		   	display: flex;
+		   	flex-direction: column;
+		   	justify-content: space-around;
+		   }
+		   #item{
+		   	font-size: 1.25em;	
+		   }
+		   #item a{
+		   	color : #212121;
+		   	text-decoration: none;
+		   	font-weight: bold;
+		   }
+		   #item a:hove{
+		   	color:white;
+		   }
+</style>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$('#addbtn').click(function () {
+			$('#addform').submit();
+		});
+	});
+</script>
+</head>
+<body>
+	
+	
+	<h1 2020년 가계부></h1>
+		<div>가계부 입력</div>
+	<form id="addform" method="post" action="/addCash">
+		<table class="table">
+			<tr>
+				<th><label for="categoryName">카테고리</label></th>
+				<td>
+					<select id="categoryName" name="categoryName">
+						<option value="">카테고리를 선택하세요</option>
+						<option th:each="category:${categoryList}" th:value="${category.categoryName}" th:text="${category.categoryName}">
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="cashFind">수입/지출</label></th>
+				<td>
+					<select id="cashFind" name="cashFind">
+						<option value="">수입/지출을 선택하세요</option>
+						<option value="수입" th:selected="${cash.cashFind eq'수입'}">수입</option>
+						<option value="지출" th:selected="${cash.cashFind eq'지출'}">지출</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="cashPrice">금액</label></th>
+				<td>
+					<input type="text" id="cashPrice" name="cashPrice" th:value="${cashPrice}">
+				</td>
+			</tr>
+			<tr>
+				<th><label for="cashplace">장소</label></th>
+				<td>
+					<input type="text" id="cashPlace" name="cashPlace" th:value="${cashPlace}">
+				</td>
+			</tr>
+			<tr>
+				<th><label for="cashMemo">메모</label></th>
+				<td>
+					<textarea rows="3" cols="50" id="cashMemo" name="cashMemo" th:value="${cashMemo}"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="cashDate">날짜</label></th>
+				<td>
+					<input type="date" id="cashDate" name="cashDate" th:value="${cashDate}">
+				</td>
+			</tr>
+		</table>
+		<div>
+			<button id="addbtn" type="button">입력</button>
+		</div>
+	</form>
+</body>
+</html>

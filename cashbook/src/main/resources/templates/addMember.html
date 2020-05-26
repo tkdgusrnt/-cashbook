@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>addMember</title>
 	<style>
 		h1{
 			margin: 50px;
@@ -21,6 +21,9 @@
 		   #idMsg{
 	 	color: purple;
 	 }
+	 	.checkbtn{
+	 	text-align: right
+	 	}
 		 
 	</style>
 <!-- Latest compiled and minified CSS -->
@@ -106,10 +109,12 @@ let helperInit = function(){
 		<div class="form-group confirm">
 			아이디 중복확인:
 			<input type="text" name="memberIdCheck" id="memberIdCheck" class="form-control">
-			<button id="idbtn" type="button">중복체크</button>
 			<span id="idHelper"></span>
 			<span th:text="${msg}" id="idMsg"></span>
-		</div>			
+		</div>	
+		<div class="checkbtn">
+			<button id="idbtn" type="button">중복체크</button>
+		</div>		
 	</form>
 			<!-- application/x-www-form-urlencoded <--글자형태로 전송,,multipart/form-data<--바이트형태로 전송 -->
 	<form id="myform" method="post" action="/addMember" enctype= "multipart/form-data">
@@ -145,7 +150,7 @@ let helperInit = function(){
 		</div>
 		<div class="form-group confirm">
 			전화번호:
-			<input type="text" name="memberPhone" placeholder="사용자 전화번호" id="memberPhone" class="form-control">
+			<input type="text" name="memberPhone" placeholder="사용자 전화번호" id="memberPhone" class="form-control"> 
 			<span id="phoneHelper"></span>
 		</div>
 		<div class="form-group confirm">
@@ -154,7 +159,7 @@ let helperInit = function(){
 			<span id="emailHelper"></span>
 		</div>
 		<div>
-			<button type="button" id="btn">회원가입</button>
+			<button type="button" id="btn" class="btn btn-primary">회원가입</button>
 		</div>
 	</form>
 

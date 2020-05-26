@@ -152,8 +152,8 @@ public class MemberService {
 		
 		
 		
-	
-	public void addMember(MemberForm memberForm) { // 회원가입을 위한  insert 서비스
+	// 회원가입을 위한  insert 서비스
+	public void addMember(MemberForm memberForm) { 
 		MultipartFile mf = memberForm.getMemberPic();
 		//확장자가 필요하다.
 		String originName = mf.getOriginalFilename();

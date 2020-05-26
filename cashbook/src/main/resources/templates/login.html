@@ -5,7 +5,7 @@
 <title>Insert title here</title>
 <style>
 	h1{
-		margin: 60px;
+		margin: 80px;
 	}
 	.title{
 		text-align: center;
@@ -13,6 +13,22 @@
 	 #loginMsg{
 	 	color: purple;
 	 }
+	 
+	 form{
+	 	margin: 0 auto;
+	 	width: 450px;
+	 }
+	 
+	 .btn{
+	 	width: 300px;
+	 	margin-top: 10px;
+	 }
+	 
+	 span{
+	 	text-align: left;
+	 }
+	 
+	 
 
 </style>
 
@@ -34,8 +50,8 @@
 }
 
 	$(document).ready(function () {
-		$("#btn").click(function () {
-			
+		$("#loginbtn").click(function () {
+			$("#loginForm").submit();
 			//유효성 검사 코드를 구현해보자 return;
 			 if($("#memberId").val().length<4){
 				   $("#idHelper").text("아이디가 일치하지 않습니다");
@@ -59,21 +75,17 @@
 <div class="container">
 <div class="title">
 	<h1>로그인</h1>
-	<form id="loginForm" method="post" action="/login" class="was-validated">
+	<form id="loginForm" method="post" action="/login">
 		<div class="form-group">
-			member_id : 
-			<input type="text" id="memberId" name="memberId" class="form-control" required>
-			<div class="valid-feedback">Valid.</div>
-			<div class="invalid-feedback">Please fill out this field.</div>
+			<input type="text" id="memberId" name="memberId" placeholder="아이디" class="form-control">
 			<span id="idHelper"></span>
 		</div>
+		
 		<div class="form-group">
-			member_pw : 
-			<input type="password" id="memberPw" name="memberPw" class="form-control" required>
-			<div class="valid-feedback">Valid.</div>
-    		<div class="invalid-feedback">Please fill out this field.</div>
+			<input type="password" id="memberPw" name="memberPw" placeholder="비밀번호" class="form-control">
 			<span id="pwHelper"></span>
 		</div>
+		
 		<div>
 			<span th:text="${msg}" id="loginMsg"></span>
 		</div>
@@ -82,8 +94,14 @@
 			<a th:href="@{/findMemberPw}">비밀번호가 기억나지 않아요</a> <!-- 아이디,이메일입력 : 이메일로 관리자가 변경한 비밀번호를 보내주겠다. -->
 		</div>
 		<div>
-			<button type="button" id="btn" class="btn btn-primary">로그인</button>
+			<button type="button" id="loginbtn" class="btn btn-primary">로그인</button>
 		</div>
+		<div>
+		<a th:href="@{/addMember}" class="btn btn-primary">회원가입</a>
+		</div>
+		
+		
+		
 	</form>
 	
 	</div>

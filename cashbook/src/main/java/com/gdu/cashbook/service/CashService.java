@@ -22,6 +22,13 @@ public class CashService {
 	private CashMapper cashMapper;
 	@Autowired
 	private CategoryMapper categoryMapper;
+	
+	//가계부 입력하기
+	public void addCash(Cash cash) {
+		cashMapper.insertCash(cash);
+	}
+	
+	
 	//카테고리 리스트
 	public List<Category> getCategoryList(){
 		

@@ -31,15 +31,47 @@ import com.sun.mail.iap.Response;
 @Controller
 public class CashController {
 	@Autowired CashService cashService;
+	
+	//가계부입력하기
+	@GetMapping("/addCash")
+	public String addCash(Cash cash, Model model, HttpSession session) {
+		System.out.println("/addCash 요청하기");
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/";
+		}
+		  
+		LocalDate day = LocalDate.now();
+		model.addAttribute("day", day);
+		List<Category> categoryList = cashService.getCategoryList();
+		System.out.println(categoryList + "<-----categoryList");
+		model.addAttribute("categoryList", categoryList);
+		return "addCash";
+	}
+	
+	 //가계부입력하기
+	@PostMapping("/addCash")
+	public String addCash(Cash cash, HttpSession session) {
+		
+			if(session.getAttribute("loginMember")==null) {
+				return "redirect:/";
+			}
+			String memberId = ((LoginMember)session.getAttribute("loginMember")).getMemberId();
+			cash.setMemberId(memberId);
+			cashService.addCash(cash);
+		return "redirect:/getCashListByDate?day="+cash.getCashDate(); 
+		
+	}
+	
 	//가게부 수정하기
 	@GetMapping("/modifyCash")
 	public String modifyCash(Model model, HttpSession session, @RequestParam(value="cashNo")int cashNo,@RequestParam(value="day", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
+		System.out.println("/modifyCash 요청" );
 		if(session.getAttribute("loginMember")==null) {
 			return "redirect:/";
 		}
 		if(day==null) {
 			day = LocalDate.now();
-		}
+		}  
 			Cash cash = cashService.getCashOne(cashNo);
 			System.out.println(cash+"<-------cash");
 			
@@ -52,7 +84,7 @@ public class CashController {
 			model.addAttribute("year", day.getYear());
 			model.addAttribute("day", day.toString());
 			System.out.println(day + " <--day");
-			return "/modifyCash";	
+			return "modifyCash";	
 	}
 	
 
