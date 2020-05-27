@@ -15,40 +15,13 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
-<style>
-	div.gd-left{
-		float: left;
-		width: 100px;
-		height: 100px;
-		border: 1px solid #000000;
-		margin-right: 10px;
-		margin-bottom: 10px;
-		border-radius: 5px;
-		
-	}
-	div.gd-clear{
-		clear: both;
-		margin-left: 10px;
-		border-radius: 5px;
-		color:red;
-	}
-	div.gd-title{
-		height: 30px;
-		background-color: pink;
-	}
-	.gd-blue{
-		color : blue;
-	}
-	
-	.gd-red{
-		color : red;
-	}
-</style>
+<style th:include="/include/menu::side"></style>
 </head>
 <body>
-<div class="container-fluid">
+<div th:include="/include/menu::sidemenu" id="aside"></div>
+<div class="container">
 	<h1>월별 달력만들기</h1>
-	<div th:include="/include/menu::sidemenu"></div> <!--jsp include 시  : jsp:include page="" -->
+	 <!--jsp include 시  : jsp:include page="" -->
 		<h3 th:text="${#temporals.format(day, 'yyyy-MM')}"></h3>
 		<div>
 			<a th:href="@{/getCashListByMonth(day=${day.plusMonths(-1)})}">이전</a>

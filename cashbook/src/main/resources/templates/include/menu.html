@@ -3,11 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <title>Menu</title>
-<style>
-	is{
-		list-style-type : georgian;
+<style th:fragment="side">
+
+#aside {
+     width: 200px;
+     height: 3000px;
+     position: fixed;
+     background: #5BA8D8;
+     overflow: hidden;
+     float: left;
+     font-size: 20px;
+ }
+ li.test{
+ 	margin-bottom: 80px
+ }
+div.gd-left{
+		float: left;
+		width: 100px;
+		height: 100px;
+		border: 1px solid #000000;
+		margin-right: 10px;
+		margin-bottom: 10px;
+		border-radius: 5px;
+		
+	}
+	div.gd-clear{
+		clear: both;
+		margin-left: 10px;
+		border-radius: 5px;
+		color:red;
+	}
+	div.gd-title{
+		height: 30px;
+		background-color: pink;
+	}
+	.gd-blue{
+		color : blue;
+	}
+	
+	.gd-red{
+		color : red;
+		
 	}
 </style>
+
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -22,25 +61,25 @@
 </head>
 <body>
 		<!-- frament1  /include/menu::sidemenu--> 
-		<div th:fragment="sidemenu">
+		<div id="aside" th:fragment="sidemenu">
 		<div><span th:text="${session.loginMember.memberId}">님</span></div>
-			<ul id="item" class="is">
-				<li><a th:href="@{/home}">홈</a></li>
-			</ul>	
-			<ul id="item" class="is">	
-				<li><a th:href="@{/memberInfo}">회원정보</a></li>
-			</ul>
-			<ul id="item" class="is">	
-				<li><a th:href="@{/getCashListByDate}">일별가계부관리</a></li>
-			</ul>
-			<ul id="item" class="is">	
-				<li><a th:href="@{/getCashListByMonth}">월별가계부관리</a></li>
-			</ul>
-			<ul id="item" class="is">	
-				<li><a th:href="@{/boardList}">게시판</a></li>
-			</ul>	
-			<ul id="item" class="is">
-				<li><a th:href="@{/logout}">로그아웃</a></li>
+			<ul>
+				<li class = "test"><a th:href="@{/home}">홈</a></li>
+				
+			
+				<li class = "test"><a th:href="@{/memberInfo}">회원정보</a></li>
+			
+			
+				<li class = "test"><a th:href="@{/getCashListByDate}">일별가계부관리</a></li>
+			
+			
+				<li class = "test"><a th:href="@{/getCashListByMonth}">월별가계부관리</a></li>
+			
+			
+				<li class = "test"><a th:href="@{/boardList}">게시판</a></li>
+			
+			
+				<li class = "test"><a th:href="@{/logout}">로그아웃</a></li>
 			</ul>
 		</div>
 </body>

@@ -14,6 +14,7 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style th:include="/include/menu::side"></style>
 <script>
 	$(document).ready(function () {
 		$('#btn').click(function () {
@@ -23,13 +24,14 @@
 </script>
 </head>
 <body>
+<div th:include="/include/menu::sidemenu" id="aside"></div> <!--jsp include 시  : jsp:include page="" -->
 	<div class="container">
 		<h1>2020년 가계부</h1>
 		<div>
 			<span id="msg" style="color:red" th:text="${msg}"></span>
 		</div>
 		
-		<div th:include="/include/menu::sidemenu"></div> <!--jsp include 시  : jsp:include page="" -->
+		
 		<h3 th:text="${day}"></h3>
 		<div>
 			<a th:href="@{/getCashListByDate(day=${day.plusDays(-1)})}">이전</a>
