@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+	
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+		<div th:include="/include/menu::sidemenu" id="aside"></div> <!--jsp include 시  : jsp:include page="" -->
+
+	
+	<h1>게시판</h1>
+	<br>
+	<a th:href="@{/boardList(currentPage =1, searchWord=${searchWord})}">처음페이지</a>
+	<!-- 페이지가 -(마이너스) 넘어가지않게 if문 설정 -->
+	<a th:if="${currentPage >= 2}" th:href="@{/boardList(currentPage=${currentPage - 1}, searchWord=${searchWord})}">이전페이지</a>
+	<a th:unless="${currentPage >= 2}" th:href="@{/boardList(currentPage =1, searchWord=${searchWord})}">이전페이지</a>
+	<a th:href="@{/boardList(currentPage=${lastPage}, searchWord=${searchWord})}">마지막페이지</a>
+	<!-- 페이지가 마지막페이지를 넘어가지 않게 if문설정 -->
+	<a th:if="${currentPage<lastPage}" th:href="@{/boardList(currentPage=${currentPage +1}, searchWord=${searchWord})}">다음페이지</a>
+	<a th:unless="${currentPage<lastPage}" th:href="@{/boardList(currentPage=${lastPage}, searchWord=${searchWord})}">다음페이지</a>
+		
+		<table class="table table table-hover table-bordered" style="width:1000px; margin:auto; text-align:center;">
+			<thead>
+				<tr>
+					<th>글번호</th>
+					<th>글제목</th>
+					<th>글내용</th>
+					<th>작성자</th>
+					<th>날짜</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="list : ${list}">
+					<td th:text="${list.boardNo}"></td>
+					<td><a th:href="@{/BoardOne(boardNo=#{list.boardNo},currentPage=${currentPage})}" th:text="${list.boardTitle}"></a></td>
+					<td th:text="${list.boardContent}"></td>
+					<td th:text="${list.memberId}"></td>
+					<td th:text="${list.boardDate}"></td>
+					
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<a th:href="@{/addBoard}" class="btn btn-primary">글작성</a>
+		</div>
+</body>
+</html>

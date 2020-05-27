@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdu.cashbook.mapper.BoardMapper">
+	
+	<!--리스트출력하기 -->
+	<select id="selectBoardList" parameterType="Map" resultType="com.gdu.cashbook.vo.Board">
+		SELECT
+			board_no boardNo,
+			board_title boardTitle,
+			board_content boardContent,
+			member_id memberId,
+			board_date boardDate
+		FROM board
+		WHERE board_title LIKE CONCAT('%',#{searchWord},'%')
+		ORDER BY board_no DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 라스트페이지 -->
+	<select id="getTotalRow" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM board
+		WHERE board_title Like CONCAT('%', #{searchWord}, '%')
+	</select>
+	
+	<!-- boardNo로 해당게시글 가져오기 -->
+	<select id="selectBoardOne" parameterType="int" resultType="com.gdu.cashbook.vo.Board">
+		SELECT
+			board_no boardNo,
+			board_title boardTitle,
+			board_content boardContent,
+			member_id memberId,
+			board_date boardDate,
+			board_pic boardPic
+			FROM board
+			WHERE board_no =#{boardNo}
+	</select>
+	
+	<!-- 처음게시판글 -->
+	<select id="firstBoardNo" resultType="int">
+		SELECT
+			MIN(board_no)
+		FROM board	
+	</select>
+	<!-- 이전, 다음을위한 마지막페이지 -->
+	<select id="lastBoardNo" resultType="int">
+		SELECT
+			MAX(board_no)
+		FROM board	
+	</select>
+	
+	<!-- LEAD를 이용해 이전넘버를 가져오는 쿼리 -->
+	<select id="previousNo" parameterType="int" resultType="int">
+		SELECT IFNULL(b.board_no,#(boardNo))
+		FROM ( SELECT board_no
+				LEAD(board_no) OVER (ORDER BY board_no DESC) AS board_no
+		FROM board			
+		)b
+		WHERE board_no = #{boardNo}
+	</select>
+	<!-- LAG를 이용해 다음 넘버를 가져오는 쿼리 -->
+	<select id="nextNo" parameterType="int" resultType="int">
+		SELECT IFNULL(b.board_no , #{boardNo})
+		FROM (SELECT board_no
+				LAG(board_no) OVER(ORDER BY board_no DESC) AS board_no
+		FROM board		
+		)b
+		WHERE board_no = #{boardNo}
+	</select>
+</mapper>
