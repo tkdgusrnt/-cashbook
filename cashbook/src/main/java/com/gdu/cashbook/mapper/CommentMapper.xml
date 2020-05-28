@@ -3,12 +3,22 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.CommentMapper">
-	<select id="getCommentList" parameterType="int" resultType="com.gdu.cashbook.vo.Comment">
+	<!-- 댓글리스트 -->
+	<select id="getCommentList" parameterType="Map" resultType="com.gdu.cashbook.vo.Comment">
 		SELECT
 			comment_no commentNo,
 			member_id memberId,
 			comment_content commentContent,
 			board_no boardNo
+		FROM comment
+		WHERE board_no = #{boardNo}
+		ORDER BY comment_no DESC
+		LIMIT #{beginRow},#{rowPerPage}
+	</select>
+	
+	<!-- 댓글 총 갯수 -->	
+	<select id="totalComment" parameterType="int" resultType="int">
+		SELECT IFNULL(COUNT(*),0)
 		FROM comment
 		WHERE board_no = #{boardNo}
 	</select>

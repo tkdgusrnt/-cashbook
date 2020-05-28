@@ -12,4 +12,6 @@ public interface CommentMapper {
 	//comment List 출력
 	public List<Comment> getCommentList(int boardNo);
 	
+	//게시글의 댓글 총 갯수
+	public int totalComment(int boardNo);
 }

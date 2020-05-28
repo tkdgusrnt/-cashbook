@@ -1,5 +1,6 @@
 package com.gdu.cashbook.controller;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -30,12 +31,18 @@ public class BoardController {
 			System.out.println(map.get("list")+"<---------------list");
 			System.out.println(map.get("lastPage")+"<------------lastPage");
 			
+			LocalDate localDate = LocalDate.now();
+			System.out.println(localDate+"<-----localDate");
+			
 			//model에 list를 담아서 보내주기
 			model.addAttribute("searchWord", searchWord);
 			model.addAttribute("currentPage", currentPage);
 			model.addAttribute("list", map.get("list"));
 			model.addAttribute("lastPage", map .get("lastPage"));
-			
+			model.addAttribute("localDate", localDate);
+
+			System.out.println(map.get("list")+"<---------------list");
+			System.out.println(map.get("lastPage")+"<------------lastPage");
 		return "/boardList";
 			
 	}

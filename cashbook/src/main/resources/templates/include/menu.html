@@ -13,9 +13,13 @@
      overflow: hidden;
      float: left;
      font-size: 20px;
+     text-color:#FFFFFF;
  }
  li.test{
  	margin-bottom: 80px
+ }
+ a.text{
+ 	color: #FFFFFF;
  }
 div.gd-left{
 		float: left;
@@ -64,22 +68,22 @@ div.gd-left{
 		<div id="aside" th:fragment="sidemenu">
 		<div><span th:text="${session.loginMember.memberId}">님</span></div>
 			<ul>
-				<li class = "test"><a th:href="@{/home}">홈</a></li>
+				<li class = "test"><a class="text" th:href="@{/home}">홈</a></li>
 				
 			
-				<li class = "test"><a th:href="@{/memberInfo}">회원정보</a></li>
+				<li class = "test"><a class="text" th:href="@{/memberInfo}">회원정보</a></li>
 			
 			
-				<li class = "test"><a th:href="@{/getCashListByDate}">일별가계부관리</a></li>
+				<li class = "test"><a class="text" th:href="@{/getCashListByDate}">일별가계부관리</a></li>
 			
 			
-				<li class = "test"><a th:href="@{/getCashListByMonth}">월별가계부관리</a></li>
+				<li class = "test"><a class="text" th:href="@{/getCashListByMonth}">월별가계부관리</a></li>
 			
 			
-				<li class = "test"><a th:href="@{/boardList}">게시판</a></li>
+				<li class = "test"><a class="text" th:href="@{/boardList}">게시판</a></li>
 			
 			
-				<li class = "test"><a th:href="@{/logout}">로그아웃</a></li>
+				<li class = "test"><a class="text" th:href="@{/logout}">로그아웃</a></li>
 			</ul>
 		</div>
 </body>
