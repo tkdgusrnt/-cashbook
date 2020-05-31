@@ -27,7 +27,9 @@ public class MemberService {
 	@Autowired private MemberMapper memberMapper;
 	@Autowired private MemberidMapper memberidMapper;
 	@Autowired private JavaMailSender javaMailSender;
-	@Value("C:\\spring eclipse\\spring work_space\\maven.1590387003359\\cashbook\\src\\main\\resources\\static\\upload\\")
+	
+	//경로 : linux(/), window(\\)
+	@Value("C:\\Users\\BYUNG\\남상현\\spring eclipse\\springworkspace\\maven.1590678209131\\cashbook\\src\\main\\resources\\static\\upload\\")
 	private String path;
 	
 	//비밀번호찾기
@@ -193,6 +195,7 @@ public class MemberService {
 		
 		
 		//2.파일을저장한다.
+		if(!originName.equals("")) {
 		File file = new File(path+memberPic);
 		try {
 			mf.transferTo(file);
@@ -200,7 +203,7 @@ public class MemberService {
 			e.printStackTrace();
 			throw new RuntimeException();
 		} 
-			
+	}		
 		
 		//memberForm ->member
 		//파일을 디스크에 물리적으로 저장하여야한다.

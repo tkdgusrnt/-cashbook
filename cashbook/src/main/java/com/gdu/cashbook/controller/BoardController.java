@@ -19,12 +19,13 @@ public class BoardController {
 
 	//게시판 리스트 출력 및 페이징하기
 	@GetMapping("/boardList")
-	public String boardList(Model model, HttpSession session, @RequestParam(value="currentPage", required = false, defaultValue = "1")int currentPage, @RequestParam(value = "searchWord", required =false, defaultValue = "")String searchWord) {
+	public String boardList(Model model, HttpSession session, @RequestParam(value="currentPage", defaultValue = "1")int currentPage, @RequestParam(value = "searchWord", defaultValue = "")String searchWord) {
 		
 		if(session.getAttribute("loginMember")==null) {
 			 return "redirect:/";
 		}
-			System.out.println(currentPage);
+				
+		System.out.println(currentPage);
 		
 			//리스트 디버깅
 			Map<String, Object> map = boardService.BoardList(currentPage, searchWord);

@@ -206,18 +206,22 @@ public class MemberController {	//회원가입폼을 만들기 위한
 		if(session.getAttribute("loginMember") !=null) {
 			return "redirect:/";
 		}
-		
 		System.out.println(memberForm+"<--------memberForm");
 		
+		if(session.getAttribute("loginMember")==null) { //로그인이 안되어있을떄
+			MultipartFile mf = memberForm.getMemberPic();
+			// 이미지 파일이 입력됬을때
 		if(memberForm.getMemberPic()!=null) {
 			if(!memberForm.getMemberPic().getContentType().equals("image/jpeg") && !memberForm.getMemberPic().getContentType().equals("image/png") && !memberForm.getMemberPic().getContentType().equals("image/gif")){
-				rttr.addFlashAttribute("msg1", "파일명을 확인해주시기 바랍니다.");
-				return "redirect:/addMember";
+				//rttr.addFlashAttribute("msg1", "파일명을 확인해주시기 바랍니다.");
+				return "redirect:/addMember?imgMsg=n";
 			} 
 		}
-		memberService.addMember(memberForm);
+		memberService.addMember(memberForm);			
 		//service : memberForm -> member타입으로 변경시킨다., 폴더에 파일도저장해야한다.
 		//System.out.println(member);
+		
+	}
 		return "redirect:/index";
 	}
 }

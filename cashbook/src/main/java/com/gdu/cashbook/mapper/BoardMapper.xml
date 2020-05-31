@@ -13,7 +13,7 @@
 			member_id memberId,
 			board_date boardDate
 		FROM board
-		WHERE board_title LIKE CONCAT('%','','%')
+		WHERE board_title LIKE CONCAT('%',#{searchWord},'%')
 		ORDER BY board_no DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>

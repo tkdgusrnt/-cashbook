@@ -31,6 +31,7 @@ import com.sun.mail.iap.Response;
 @Controller
 public class CashController {
 	@Autowired CashService cashService;
+	private CharSequence string;
 	
 	//가계부입력하기
 	@GetMapping("/addCash")
@@ -133,7 +134,7 @@ public class CashController {
 		}
 		
 		Calendar cDay = Calendar.getInstance(); // 오늘날짜를 구하는
-		
+	
 		if(day == null) {
 			day= LocalDate.now();//day를 cDay형으로 변환(찾아보자)
 		}else {
@@ -145,6 +146,7 @@ public class CashController {
 			 */
 			cDay.set(day.getYear(), day.getMonthValue()-1,day.getDayOfMonth()); //오늘 날짜에서 day갑과 동일한 값으로 변경된다.
 		}
+		
 		
 			/* 0. 오늘 LocalDate 타입
 			 * 1. 오늘 Calendar 타입
@@ -172,6 +174,7 @@ public class CashController {
 		
 		Calendar firstDay = cDay;
 		firstDay.set(Calendar.DATE, 1); // 일 을 1일로 변경
+		firstDay.get(Calendar.DAY_OF_WEEK);//요일
 		System.out.println(firstDay.get(Calendar.DAY_OF_WEEK)+"<-------firstDay");//cDay.get(Calendar.DAY_OF_WEEK); // 1이면 일요일 2이면 월요일 ........7이면토요일이된다.
 		System.out.println(firstDay.get(Calendar.YEAR)+","+(firstDay.get(Calendar.MONTH)+1)+","+firstDay.get(Calendar.DATE));
 		model.addAttribute("firstDayOfWeek", firstDay.get(Calendar.DAY_OF_WEEK));
@@ -212,7 +215,7 @@ public class CashController {
 		
 		//Integer cashFindSum = (Integer)map.get("cashFindSum");
 		
-		model.addAttribute("cashList", (List<Cash>)map.get("cashList"));
+		model.addAttribute("cashList", map.get("cashList"));
 		System.out.println(map.get("cashList")+"<---------cashList");
 		model.addAttribute("cashFindSum",map.get("cashFindSum"));  
 		System.out.println(map.get("cashFindSum")+"<---------cashFindSum");

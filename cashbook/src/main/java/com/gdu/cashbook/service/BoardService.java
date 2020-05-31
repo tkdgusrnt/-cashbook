@@ -80,6 +80,7 @@ public class BoardService {
 		int beginRow = (currentPage-1)*rowPerPage;
 		
 		Map<String, Object> map = new HashMap<>();
+		map.put("searchWord", searchWord);
 		map.put("beginRow", beginRow);
 		map.put("rowPerPage", rowPerPage);
 		
@@ -96,7 +97,7 @@ public class BoardService {
 		Map<String, Object> map2 = new HashMap<>();
 		map2.put("list", list);
 		map2.put("lastPage", lastPage);
-		map2.put("searchWord", searchWord);
+		
 		
 		return map2;
 		
