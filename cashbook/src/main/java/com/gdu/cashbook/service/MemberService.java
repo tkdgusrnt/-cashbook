@@ -29,7 +29,7 @@ public class MemberService {
 	@Autowired private JavaMailSender javaMailSender;
 	
 	//경로 : linux(/), window(\\)
-	@Value("C:\\Users\\BYUNG\\남상현\\spring eclipse\\springworkspace\\maven.1590678209131\\cashbook\\src\\main\\resources\\static\\upload\\")
+	@Value("C:\\spring eclipse\\spring work_space\\maven.1590971338805\\cashbook\\src\\main\\resources\\static\\upload\\")
 	private String path;
 	
 	//비밀번호찾기

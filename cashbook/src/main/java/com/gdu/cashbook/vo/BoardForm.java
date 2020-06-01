@@ -1,12 +1,15 @@
 package com.gdu.cashbook.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class BoardForm {
 
 	private int boardNo;
 	private String boardTitle;
 	private String memberId;
 	private String boardDate;
-	private String boardPic;
+	private String boardContent;
+	private MultipartFile boardPic;
 	public int getBoardNo() {
 		return boardNo;
 	}
@@ -31,16 +34,26 @@ public class BoardForm {
 	public void setBoardDate(String boardDate) {
 		this.boardDate = boardDate;
 	}
-	public String getBoardPic() {
+	public String getBoardContent() {
+		return boardContent;
+	}
+	public void setBoardContent(String boardContent) {
+		this.boardContent = boardContent;
+	}
+	public MultipartFile getBoardPic() {
 		return boardPic;
 	}
-	public void setBoardPic(String boardPic) {
+	public void setBoardPic(MultipartFile boardPic) {
 		this.boardPic = boardPic;
 	}
 	@Override
 	public String toString() {
 		return "BoardForm [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", memberId=" + memberId
-				+ ", boardDate=" + boardDate + ", boardPic=" + boardPic + "]";
+				+ ", boardDate=" + boardDate + ", boardContent=" + boardContent + ", boardPic=" + boardPic + "]";
 	}
+
 	
+
+
+
 }

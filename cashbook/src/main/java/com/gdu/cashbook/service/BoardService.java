@@ -1,16 +1,21 @@
 package com.gdu.cashbook.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gdu.cashbook.mapper.BoardMapper;
 import com.gdu.cashbook.mapper.CommentMapper;
 import com.gdu.cashbook.vo.Board;
+import com.gdu.cashbook.vo.BoardForm;
 import com.gdu.cashbook.vo.Comment;
 
 @Service
@@ -18,6 +23,50 @@ import com.gdu.cashbook.vo.Comment;
 public class BoardService {
 	@Autowired BoardMapper boardMapper;
 	@Autowired CommentMapper commentMapper;
+	@Value("C:\\spring eclipse\\spring work_space\\maven.1590971338805\\cashbook\\src\\main\\resources\\static\\upload\\board\\")
+	private String path;
+	
+	//게시글 작성
+	public int addBoard(BoardForm boardForm) {
+		System.out.println(boardForm + "?????");
+		MultipartFile mf = boardForm.getBoardPic();
+		System.out.println(mf + "mf///");
+		String originName = mf.getOriginalFilename();
+		System.out.println(originName);
+		String boardPic = null;
+		if(!originName.equals("")) {
+			int lastDot = originName.lastIndexOf(".");
+			String extension = originName.substring(lastDot);
+			System.out.println(extension);
+			// 사진파일 랜덤문자열로 추가
+			UUID uuid = UUID.randomUUID();
+			System.out.println(uuid);
+			boardPic = boardForm.getMemberId()+uuid+extension;
+			System.out.println(boardPic + "////////");
+		}
+		
+		// boardForm -> board
+		Board board = new Board();
+		board.setBoardTitle(boardForm.getBoardTitle());
+		board.setBoardContent(boardForm.getBoardContent());
+		board.setMemberId(boardForm.getMemberId());
+		board.setBoardPic(boardPic);
+		System.out.println(board + " <--boardService.addBoard board");
+		
+		int row = boardMapper.addBoard(board);
+		if(!originName.equals("")) {
+			// file 저장
+			System.out.println(path+boardPic + " <-- 저장경로");
+			File file = new File(path+boardPic);
+			try {
+				mf.transferTo(file);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException();
+			}
+		}
+		return row;
+	}
 	
 	//board 상세정보 출력
 	public Map<String, Object> boardOne(Map<String, Object> mapp){

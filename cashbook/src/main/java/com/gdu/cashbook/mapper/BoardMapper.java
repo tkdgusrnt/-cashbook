@@ -29,4 +29,7 @@ public interface BoardMapper {
 	
 	// 이전, 다음 게시판글을 출력하기 위해 마지막 번호구해오기
 	public int lastBoardNo();
+	
+	//게시글 작성
+	public int addBoard(Board board);
 }
