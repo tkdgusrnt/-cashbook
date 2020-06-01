@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style>
+	html, body{
+			margin:0;
+			height: 100%;
+	}
+		   #box{
+		   	text-align: center;
+		   	height: 100%;
+		   	width: 200px;
+		   	margin:0;
+		   	float: left;
+		   	background:#3498db;
+		   }
+		   #list{
+		   	margin-top: 20px;
+		   	height: 90%;
+		   	display: flex;
+		   	flex-direction: column;
+		   	justify-content: space-around;
+		   }
+		   #item{
+		   	font-size: 1.25em;	
+		   }
+		   #item a{
+		   	color : #212121;
+		   	text-decoration: none;
+		   	font-weight: bold;
+		   }
+		   #item a:hove{
+		   	color:white;
+		   }
+</style>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<style th:include="/include/menu::side"></style>
+
+<script>
+	$(document).ready(function(){
+		$('#boardbtn').click(function(){
+			$('#boardform').submit();
+		});
+		
+	});
+	
+	
+</script>
+</head>
+<body>
+	<h1>게시판 입력하기</h1>
+	
+		<div th:include="/include/menu::sidemenu" id="aside"></div> <!--jsp include 시  : jsp:include page="" -->
+	<form id="boardform" method="post" action="/addBoard" enctype="multipart/form-data">
+		<div class="container">
+			<label for="boardTitle">제목</label>
+			<input type="text" name="boardTitle" id="boardTitle" class="form-control">
+		</div>	
+		<div class="container">
+			<label for="boardPic">사진첨부</label>
+			<input type="file" name="boardPic" id="boardPic" class="form-control">
+		</div>
+		<div class="container">
+			<label for="boardContent">내용</label>
+			<input type="text" name="boardContent" id="boardContent" class="form-control">
+		</div>
+		<br>
+		<div class="container">
+			<button type="button" id="boardbtn" class="btn btn-primary">게시판 입력</button>
+		</div>
+	</form>
+	
+</body>
+</html>
