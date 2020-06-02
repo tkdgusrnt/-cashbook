@@ -1,6 +1,7 @@
 package com.gdu.cashbook.controller;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -20,6 +21,54 @@ import com.gdu.cashbook.vo.LoginMember;
 @Controller
 public class BoardController {
 @Autowired BoardService boardService;
+
+	//게시글 가져오기
+	@GetMapping("/boardOne")
+	public String boardOne(HttpSession session, Model model, @RequestParam(value = "boardNo")int boardNo, @RequestParam(value = "currentPage", defaultValue = "1")int currentPage, @RequestParam(value = "commentCurrentPage", defaultValue = "1")int commentCurrentPage) {
+		System.out.println("/boardOne 요청하기");
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/login";
+		}
+		
+		//로그인아이디로 일반회원과 관리자 분리
+		System.out.println(session.getAttribute("admin")+"<------adminLogin");
+		String loginMemberId = "";
+		if(session.getAttribute("admin")!=null) {
+			loginMemberId = (String)session.getAttribute("admin");
+			System.out.println(loginMemberId + "<-------admin loginMemberId");
+		}else {
+			loginMemberId = ((LoginMember)(session.getAttribute("loginMember"))).getMemberId();
+			System.out.println(loginMemberId+"<-------loginMemberId");
+		}
+			Map<String, Object> mapp = new HashMap<>();
+			mapp.put("boardNo", boardNo);
+			mapp.put("commentCurrentPage", commentCurrentPage);
+			
+		//상세정보 출력, 모델에 담아서 보내주기
+			Map<String, Object> map = boardService.boardOne(mapp);
+			 model.addAttribute("commentList", map.get("commentList"));
+			 model.addAttribute("loginMember", map.get("loginMember"));
+			 model.addAttribute("currentPage", map.get("currentPage"));
+			 model.addAttribute("board", map.get("board"));
+			 model.addAttribute("firstBoardNo", map.get("firstBoardNo"));
+			 model.addAttribute("lastBoardNo", map.get("lastBoardNo"));
+			 model.addAttribute("nextNo", map.get("nextNo"));
+			 model.addAttribute("previous", map.get("previous"));
+			 model.addAttribute("commentCurrentPage",map.get("commentCurrentPage"));
+			 model.addAttribute("commentLastPage", map.get("commentLastPage"));
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			
+		
+		//페이지 요청하기
+		return "boardOne";
+	}
 
 	//게시판입력하기
 	@GetMapping("/addBoard")

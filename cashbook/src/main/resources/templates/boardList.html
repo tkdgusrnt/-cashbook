@@ -16,6 +16,18 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$('#searchbtn').click(function () { // 아이디가  searchbtn인 녀석의 클릭이벤트가 발생했을떄
+			if($('#searchWord').val()==""){ // searchWord 의값이 공백이라면 리턴후 포커스를 이쪽으로
+				$('#searchWord').focus();
+				return;
+			}
+			//if 문을 통과했다면 submit 해라
+			$('#searchform').submit();
+		});
+	});
+</script>
 </head>
 <body>
 		<div th:include="/include/menu::sidemenu" id="aside"></div> <!--jsp include 시  : jsp:include page="" -->
@@ -58,6 +70,13 @@
 		</table>
 		<div>
 			<a th:href="@{/addBoard}" class="btn btn-primary">글작성</a>
+		</div><br>
+		<!-- 검색기능 -->
+	<form id="searchform" method="get" th:action="@{/boardList}">
+		<input type="text" name="searchWord" id="searchWord" class="form-control">
+		<div>
+			<button type="button" id="searchbtn">검색하기</button>
 		</div>
+	</form>	
 </body>
 </html>
