@@ -60,7 +60,7 @@
 			<tbody>
 				<tr th:each="list : ${list}">
 					<td th:text="${list.boardNo}"></td>
-					<td><a th:href="@{/BoardOne(boardNo=#{list.boardNo},currentPage=${currentPage})}" th:text="${list.boardTitle}"></a></td>
+					<td><a th:href="@{/BoardOne(boardNo=${list.boardNo},currentPage=${currentPage})}" th:text="${list.boardTitle}"></a></td>
 					<td th:text="${list.boardContent}"></td>
 					<td th:text="${list.memberId}"></td>
 					<td th:text="${list.boardDate}"></td>

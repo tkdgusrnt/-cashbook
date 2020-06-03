@@ -70,21 +70,23 @@
 		FROM board	
 	</select>
 	
-	<!-- LEAD를 이용해 이전넘버를 가져오는 쿼리 -->
+	<!-- LAG를 이용해 이전넘버를 가져오는 쿼리 -->
 	<select id="previousNo" parameterType="int" resultType="int">
-		SELECT IFNULL(b.board_no,#(boardNo))
-		FROM ( SELECT board_no
-				LEAD(board_no) OVER (ORDER BY board_no DESC) AS board_no
-		FROM board			
+		SELECT IFNULL(b.boardNo,#{boardNo})
+		FROM ( SELECT board_no,
+				LAG(board_no) OVER (ORDER BY board_no) AS boardNo
+		FROM board		
+		ORDER BY board_no	
 		)b
 		WHERE board_no = #{boardNo}
 	</select>
-	<!-- LAG를 이용해 다음 넘버를 가져오는 쿼리 -->
+	<!-- LEAD를 이용해 다음 넘버를 가져오는 쿼리 -->
 	<select id="nextNo" parameterType="int" resultType="int">
-		SELECT IFNULL(b.board_no , #{boardNo})
-		FROM (SELECT board_no
-				LAG(board_no) OVER(ORDER BY board_no DESC) AS board_no
-		FROM board		
+		SELECT IFNULL(b.boardNo , #{boardNo})
+		FROM (SELECT board_no,
+				LEAD(board_no) OVER (ORDER BY board_no) AS boardNo
+		FROM board	
+		ORDER BY board_no	
 		)b
 		WHERE board_no = #{boardNo}
 	</select>

@@ -23,9 +23,10 @@ public class BoardController {
 @Autowired BoardService boardService;
 
 	//게시글 가져오기
-	@GetMapping("/boardOne")
-	public String boardOne(HttpSession session, Model model, @RequestParam(value = "boardNo")int boardNo, @RequestParam(value = "currentPage", defaultValue = "1")int currentPage, @RequestParam(value = "commentCurrentPage", defaultValue = "1")int commentCurrentPage) {
-		System.out.println("/boardOne 요청하기");
+	@GetMapping("/BoardOne")
+	public String boardOne(HttpSession session, Model model, @RequestParam(value = "boardNo") int boardNo, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage, @RequestParam(value = "commentCurrentPage", defaultValue = "1")int commentCurrentPage) {
+		System.out.println(boardNo + "/////");
+		System.out.println("/BoardOne 요청하기");
 		if(session.getAttribute("loginMember")==null) {
 			return "redirect:/login";
 		}
@@ -53,21 +54,12 @@ public class BoardController {
 			 model.addAttribute("firstBoardNo", map.get("firstBoardNo"));
 			 model.addAttribute("lastBoardNo", map.get("lastBoardNo"));
 			 model.addAttribute("nextNo", map.get("nextNo"));
-			 model.addAttribute("previous", map.get("previous"));
+			 model.addAttribute("previousNo", map.get("previousNo"));
 			 model.addAttribute("commentCurrentPage",map.get("commentCurrentPage"));
 			 model.addAttribute("commentLastPage", map.get("commentLastPage"));
-			 
-			 
-			 
-			 
-			 
-			 
-			 
-			 
-			
 		
 		//페이지 요청하기
-		return "boardOne";
+		return "BoardOne";
 	}
 
 	//게시판입력하기
