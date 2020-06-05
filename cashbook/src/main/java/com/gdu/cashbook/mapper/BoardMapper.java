@@ -32,4 +32,7 @@ public interface BoardMapper {
 	
 	//게시글 작성
 	public int addBoard(Board board);
+	
+	//게시글 삭제하기
+	public int removeBoard(int boardNo);
 }
