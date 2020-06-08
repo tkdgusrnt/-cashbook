@@ -53,6 +53,7 @@
 		$("#loginbtn").click(function () {
 			$("#loginForm").submit();
 			//유효성 검사 코드를 구현해보자 return;
+			helperInit();
 			 if($("#memberId").val().length<4){
 				   $("#idHelper").text("아이디가 일치하지 않습니다");
 				   $("#memberId").focus();
@@ -64,8 +65,8 @@
 				 $("#memberPw").focus();
 				 return;
 			 } 
-			 helperInit();
-			 
+			
+
 			$("#loginForm").submit();
 		});
 	});

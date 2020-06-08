@@ -26,6 +26,16 @@ public class BoardService {
 	@Value("C:\\spring eclipse\\spring work_space\\maven.1590971338805\\cashbook\\src\\main\\resources\\static\\upload\\board\\")
 	private String path;
 	
+	//게시글 수정하기
+	public int modifyBoard(Board board) {
+		return boardMapper.modifyBoard(board);
+		
+	}
+	
+	//게시글 삭제
+	public int removeBoard(int boardNo) {
+		return boardMapper.removeBoard(boardNo);
+	}
 	//게시글 작성
 	public int addBoard(BoardForm boardForm) {
 		System.out.println(boardForm + "?????");

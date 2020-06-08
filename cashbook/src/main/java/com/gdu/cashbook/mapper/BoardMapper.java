@@ -35,4 +35,7 @@ public interface BoardMapper {
 	
 	//게시글 삭제하기
 	public int removeBoard(int boardNo);
+	
+	//게시글 업데이트
+	public int modifyBoard(Board board);
 }

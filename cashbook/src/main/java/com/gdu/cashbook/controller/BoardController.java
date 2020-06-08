@@ -15,12 +15,66 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gdu.cashbook.service.BoardService;
+import com.gdu.cashbook.vo.Board;
 import com.gdu.cashbook.vo.BoardForm;
 import com.gdu.cashbook.vo.LoginMember;
 
 @Controller
 public class BoardController {
 @Autowired BoardService boardService;
+	
+	//게시글 수정하기
+	@PostMapping("/modifyBoard")
+	public String modifyBoard(HttpSession session, Board board) {
+		//세션검사
+		if(session.getAttribute("loginMember")==null && session.getAttribute("admin")==null) {
+			return "redirect:/login";
+		}
+		//디버깅 체크
+		System.out.println(board + "<----modifyBoard");
+		boardService.modifyBoard(board);
+		
+		return "redirect:/BoardOne?boardNo="+board.getBoardNo();
+		
+	}
+
+	//게시글 수정하기
+	@GetMapping("/modifyBoard")
+	public String modifyBoard(HttpSession session, @RequestParam(value = "boardNo")int boardNo, Model model) {
+		//세션검사
+		if(session.getAttribute("loginMember") == null && session.getAttribute("admin")==null ) {
+			return "redirect:/login";
+		}
+		
+		//멤버 한명 상세정보 출력하기
+		Map<String, Object> mapp = new HashMap<>();
+		mapp.put("boardNo", boardNo);
+		mapp.put("commentCurrentPage", 1);
+		Map<String, Object> map = boardService.boardOne(mapp);
+		model.addAttribute("board", map.get("board"));
+		//페이지 요청
+		return "modifyBoard";
+		
+	}
+	
+
+
+	//게시글 삭제하기
+	@PostMapping("/removeBoard")
+	public String removeBoard(HttpSession session, @RequestParam(value = "boardNo") int boardNo) {
+		
+		//세션검사
+		if(session.getAttribute("loginMember")==null && session.getAttribute("admin")==null) {
+			return "redirect:/login";
+		}
+		
+		System.out.println(boardNo +"<---------removeBoard");
+		
+		//삭제요청
+		boardService.removeBoard(boardNo);
+		
+		return "redirect:/boardList";
+	}
 
 	//게시글 가져오기
 	@GetMapping("/BoardOne")

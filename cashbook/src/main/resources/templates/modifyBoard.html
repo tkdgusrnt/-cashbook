@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	html, body{
+			margin:0;
+			height: 100%;
+	}
+		   #box{
+		   	text-align: center;
+		   	height: 100%;
+		   	width: 200px;
+		   	margin:0;
+		   	float: left;
+		   	background:#3498db;
+		   }
+		   #list{
+		   	margin-top: 20px;
+		   	height: 90%;
+		   	display: flex;
+		   	flex-direction: column;
+		   	justify-content: space-around;
+		   }
+		   #item{
+		   	font-size: 1.25em;	
+		   }
+		   #item a{
+		   	color : #212121;
+		   	text-decoration: none;
+		   	font-weight: bold;
+		   }
+		   #item a:hove{
+		   	color:white;
+		   }
+</style>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+	<h1>게시글 수정</h1>
+	
+		<div th:include="/include/menu::sidemenu" id="aside"></div> <!--jsp include 시  : jsp:include page="" -->
+	<form method="post" th:action="@{/modifyBoard}">
+		<div>
+			글제목
+			<input type="text" name="boardTitle" th:value="${board.boardTitle}">
+		</div>
+		<div>
+			작성자/ 작성날짜
+				<input type="text" name="memberId" th:value="${board.boardMemberId}" readonly="readonly">
+				<input type="text" name="boardDate" th:value="${board.boardDate}" readonly="readonly"> 
+		</div>
+		<div>
+			글내용
+			<textarea rows="7" cols="50" name="boardContent" th:value="${board.boardContent}"></textarea>
+		</div>
+		<div>
+			<button type="button">수정완료</button>
+		</div>
+		<div>
+			<input type="text" name="boardNo" th:value="${board.boardNo}">
+		</div>
+	</form>
+	
+	</div>
+</body>
+</html>

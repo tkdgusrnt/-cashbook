@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	html, body{
+			margin:0;
+			height: 100%;
+	}
+		   #box{
+		   	text-align: center;
+		   	height: 100%;
+		   	width: 200px;
+		   	margin:0;
+		   	float: left;
+		   	background:#3498db;
+		   }
+		   #list{
+		   	margin-top: 20px;
+		   	height: 90%;
+		   	display: flex;
+		   	flex-direction: column;
+		   	justify-content: space-around;
+		   }
+		   #item{
+		   	font-size: 1.25em;	
+		   }
+		   #item a{
+		   	color : #212121;
+		   	text-decoration: none;
+		   	font-weight: bold;
+		   }
+		   #item a:hove{
+		   	color:white;
+		   }
+</style>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+	let helperInit = function () {
+		$("#idHelper").text("");
+		$("#pwHelper").text("");
+	}
+	
+	$(document).ready(function() {
+		$("#adminbtn").click(function () {
+			helperInit();
+			//유효성 검사하기
+			if($("#adminId").val().length<4){
+				$("#idHelper").text("아이디를 확인바랍니다");
+				$("#adminId").focus();
+				return;
+			}
+			if($("#adminPw").val().length<4){
+				$("#pwHelper").text("비밀번호를 확인해주시기 바랍니다");
+				$("#adminPw").focus();
+				return;
+			}
+			$("#adminForm").submit();
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>관리자 로그인</h1>
+		<div class="container">
+			 <!--jsp include 시  : jsp:include page="" -->
+	<form id="adminForm" method="post" th:action="@{/adminLogin}">
+		<div>
+			아이디<br>
+			<input id="adminId" type="text" name="adminId" placeholder="아이디를 입력하세요">
+				<span id="idHelper"></span>
+		</div>
+		<div>
+			비밀번호<br>
+			<input id="adminPw" type="password" name="adminPw" placeholder="비밀번호를 입력하세요">
+				<span id="pwHelper"></span>
+		</div>
+		<div>
+			<button id="adminbtn" type="button">로그인</button>
+		</div>
+	</form>
+		</div>
+</body>
+</html>
