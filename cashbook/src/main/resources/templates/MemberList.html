@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	html, body{
+			margin:0;
+			height: 100%;
+	}
+		   #box{
+		   	text-align: center;
+		   	height: 100%;
+		   	width: 200px;
+		   	margin:0;
+		   	float: left;
+		   	background:#3498db;
+		   }
+		   #list{
+		   	margin-top: 20px;
+		   	height: 90%;
+		   	display: flex;
+		   	flex-direction: column;
+		   	justify-content: space-around;
+		   }
+		   #item{
+		   	font-size: 1.25em;	
+		   }
+		   #item a{
+		   	color : #212121;
+		   	text-decoration: none;
+		   	font-weight: bold;
+		   }
+		   #item a:hove{
+		   	color:white;
+		   }
+</style>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+	$(document).ready(function () {
+		//id가 memberListbtn의 클릭이벤트가 발생했을떄
+		$('#memberListbtn').click(function () {
+			//searchWord의값이 공백이라면 리턴후 포커스를 이쪽으로..
+			if($('#searchWord').val()==""){
+				$('#searchWord').focus();
+				return;
+			}
+			//if문에 걸러지지않았으면 서브밋한다.
+			$('#memberListForm').submit();
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>멤버리스트 출력</h1>
+	
+		<div th:include="/include/menu::sidemenu" id="aside"></div> <!--jsp include 시  : jsp:include page="" -->
+	<br>
+		<div>
+			<a th:href="@{/MemberList(currentPage=1)}">처음페이지</a>
+		</div>
+		<!-- 1페이지에서 이전페이지로 넘어가지않게 if문설정 -->
+		<div>
+			<a th:if="${currentPage >=2}" th:href="@{/MemberList(currentPage=${currentPage-1})}">이전페이지</a>
+			<a th:unless="${currentPage >=2}" th:href="@{/MemberList(currentPage=1)}">이전페이지</a>
+		
+		<!-- 마지막페이지에서 다음페이지로 넘어가지않게 if 문설정 -->
+		<!-- <div>
+			<a th:if="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${currentPage+1})}">다음페이지</a>
+			<th:block th:if="${currentPage == null}">
+				<a th:href="@{/MemberList(currentPage=${2})}">다음페이지</a>
+			</th:block>
+			<th:block th:if="${currentPage != null}">
+				<a th:if="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${currentPage+1})}">다음페이지</a>	
+			</th:block>
+			<a th:if="${currentPage < lastPage}" th:href="@{/MemberList(currentPage=${currentPage+1})}">다음페이지</a>
+			<a th:unless="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${lastPage})}">다음페이지</a>
+		</div> -->
+			<a th:if="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${currentPage+1})}">다음페이지</a>
+			<a th:unless="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${lastPage})}">다음페이지</a>
+		
+		</div>
+		<div>
+			<a th:href="@{/MemberList(currentPage=${lastPage})}">마지막페이지</a>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>아이디</th>
+					<th>이름</th>
+					<th>주소</th>
+					<th>핸드폰번호</th>
+					<th>이메일</th>
+					<th>사진</th>
+					<th>회원 강퇴</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="list : ${list}">
+					<td th:text="${list.memberId}"></td>
+					<td th:text="${list.memberName}"></td>
+					<td th:text="${list.memberAddr}"></td>
+					<td th:text="${list.memberPhone}"></td>
+					<td th:text="${list.memberEmail}"></td>
+					<td th:text="${list.memberPic}"></td>
+					<td>
+						<a th:href="@{/removeAdmin(memberId=${list.memberId})}">회원 강퇴</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<!-- 검색 -->
+		<form id="memberListForm" method="get" th:action="@{MemberList}">
+		<input type="text" name="searchWord" id="searchWord" placeholder="회원명을 입력하세요">
+		<div>
+			<button type="button" id="memberListbtn">검색</button>
+		</div>
+		</form>
+</body>
+</html>

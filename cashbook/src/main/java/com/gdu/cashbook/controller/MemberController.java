@@ -1,6 +1,8 @@
 package com.gdu.cashbook.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +24,36 @@ import com.gdu.cashbook.vo.MemberForm;
 public class MemberController {	//회원가입폼을 만들기 위한 
 	@Autowired
 	private MemberService memberService;
+	
+	//멤버리스트 출력
+	@GetMapping("/MemberList")
+	public String MemberList(HttpSession session, Model model, @RequestParam(value = "currentPage", defaultValue = "1")int currentPage, @RequestParam(value = "searchWord", defaultValue = "")String searchWord){
+		//세션검사
+		if(session.getAttribute("admin")==null || session.getAttribute("loginMember")!=null) {
+			return "redirect:/home";
+		}
+		//들어온 페이지 디버깅
+		System.out.println(currentPage + "<----currentPage");
+		System.out.println(searchWord+ "<----------searchWord");
+		
+		Map<String,Object> mapp = new HashMap<String, Object>();
+		mapp.put("currentPage", currentPage);
+		mapp.put("searchWord", searchWord);
+		
+		//리스트 출력 lastPage 떄문에 맵타입으로 받는다.
+		Map<String, Object> map = memberService.getMemberListAll(mapp);
+		
+		//모델에 list 담아서보내기
+		model.addAttribute("list", map.get("list"));
+		System.out.println(map.get("list")+"<------------memberList");
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("currentPage", currentPage);
+		
+		return "/MemberList";
+		
+	}
+	
+	
 	//비밀번호 찾기
 	@PostMapping("/findMemberPw")
 	public String findMemberPw(HttpSession session, Model model, Member member) {

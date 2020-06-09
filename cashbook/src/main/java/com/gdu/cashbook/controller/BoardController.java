@@ -81,7 +81,8 @@ public class BoardController {
 	public String boardOne(HttpSession session, Model model, @RequestParam(value = "boardNo") int boardNo, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage, @RequestParam(value = "commentCurrentPage", defaultValue = "1")int commentCurrentPage) {
 		System.out.println(boardNo + "/////");
 		System.out.println("/BoardOne 요청하기");
-		if(session.getAttribute("loginMember")==null) {
+		
+		if(session.getAttribute("loginMember")==null && session.getAttribute("admin")==null) {
 			return "redirect:/login";
 		}
 		
@@ -121,7 +122,7 @@ public class BoardController {
 	public String addBoard(HttpSession session) {
 		System.out.println("/addBoard 요청하기");
 		//로그인이안되어있으면 인덱스화면으로
-		if(session.getAttribute("loginMember")==null) {
+		if(session.getAttribute("loginMember")==null && session.getAttribute("admin")==null) {
 			return "redirect:/";
 		}
 		return "addBoard";
@@ -130,7 +131,7 @@ public class BoardController {
 	@PostMapping("/addBoard")
 	public String addBoard(HttpSession session, BoardForm boardForm) {
 		//로그인이 안되어있으면 인덱스화면으로
-		if(session.getAttribute("loginMember")==null) {
+		if(session.getAttribute("loginMember")==null && session.getAttribute("admin")==null) {
 			return "redirect:/";
 		}
 		//파일이 입력되었을떄
@@ -150,7 +151,7 @@ public class BoardController {
 	@GetMapping("/boardList")
 	public String boardList(Model model, HttpSession session, @RequestParam(value="currentPage", defaultValue = "1")int currentPage, @RequestParam(value = "searchWord", defaultValue = "")String searchWord) {
 		
-		if(session.getAttribute("loginMember")==null) {
+		if(session.getAttribute("loginMember")==null && session.getAttribute("admin")==null) {
 			 return "redirect:/";
 		}
 				

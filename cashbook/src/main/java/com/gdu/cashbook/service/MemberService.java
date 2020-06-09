@@ -2,6 +2,9 @@ package com.gdu.cashbook.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,44 @@ public class MemberService {
 	//경로 : linux(/), window(\\)
 	@Value("C:\\spring eclipse\\spring work_space\\maven.1590971338805\\cashbook\\src\\main\\resources\\static\\upload\\")
 	private String path;
+	
+	
+	//멤버 리스트 출력하기
+	public Map<String, Object> getMemberListAll(Map<String, Object> mappp){
+		int currentPage = (int) mappp.get("currentPage");
+		String searchWord = (String) mappp.get("searchWord");
+		System.out.println(currentPage+"<-------currentPageService");
+		System.out.println(searchWord+"<---------searchWordService");
+		
+		int rowPerPage = 3;
+		int beginRow = (currentPage-1)*rowPerPage;
+		System.out.println(beginRow);
+		
+		//총멤버수 구하기
+		int totalRow = memberMapper.getTotalMember();
+		System.out.println(totalRow);
+		int lastPage=totalRow / rowPerPage;
+		if(totalRow%rowPerPage !=0) {
+			lastPage +=1;
+		}
+		 System.out.println(lastPage);
+		 
+		 Map<String, Object> mapp = new HashMap<String, Object>();
+		 mapp.put("beginRow", beginRow);
+		 mapp.put("rowPerPage", rowPerPage);
+		 mapp.put("searchWord", searchWord);
+		 
+		 //페이징 된 멤버 리스트 출력
+		 List<Member> list = memberMapper.selectMemberListAll(mapp);
+		 System.out.println(list);
+		 
+		 //일회용맵 
+		 Map<String, Object> map = new HashMap<String, Object>();
+		 map.put("list", list);
+		 map.put("lastPage", lastPage);
+		return map;
+		
+	}
 	
 	//비밀번호찾기
 	public int getMemberPw(Member member) {

@@ -1,5 +1,8 @@
 package com.gdu.cashbook.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gdu.cashbook.vo.LoginMember;
@@ -9,8 +12,14 @@ import com.gdu.cashbook.vo.Member;
 
 
 public interface MemberMapper {
+	//멤버 총 인원 구하기
+	public int getTotalMember();
 	
-	//
+	//멤버 한명 삭제..관리자만 가능
+	public int removeAdmin(String memberId);
+	
+	//멤버 리스트 출력
+	public List<Member> selectMemberListAll(Map<String, Object> map);
 	
 	//이미지 삭제
 	public String selectMemberPic(String memberId);
