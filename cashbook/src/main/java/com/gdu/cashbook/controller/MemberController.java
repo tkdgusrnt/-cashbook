@@ -25,6 +25,19 @@ public class MemberController {	//회원가입폼을 만들기 위한
 	@Autowired
 	private MemberService memberService;
 	
+	//멤버강퇴
+	@GetMapping("/removeAdmin")
+	public String removeAdmin(HttpSession session, Model model, @RequestParam(value = "memberId")String memberId) {
+			System.out.println("/removeAdmin 요청하기");
+			if(session.getAttribute("admin")==null || session.getAttribute("loginMember")!=null) {
+				return "redirect:/";
+			}
+			memberService.removeAdmin(memberId);
+			
+		return "redirect:/MemberList";
+		
+	}
+	
 	//멤버리스트 출력
 	@GetMapping("/MemberList")
 	public String MemberList(HttpSession session, Model model, @RequestParam(value = "currentPage", defaultValue = "1")int currentPage, @RequestParam(value = "searchWord", defaultValue = "")String searchWord){
@@ -212,7 +225,7 @@ public class MemberController {	//회원가입폼을 만들기 위한
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		//로그인 아닐떄
-		if(session.getAttribute("loginMember") ==null) {
+		if(session.getAttribute("loginMember") ==null && session.getAttribute("admin")==null) {
 			return "redirect:/";
 		}
 		session.invalidate();

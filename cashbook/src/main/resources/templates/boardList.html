@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 	
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -16,6 +15,7 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style th:include="/include/menu::side"></style>
 <script>
 	$(document).ready(function () {
 		$('#searchbtn').click(function () { // 아이디가  searchbtn인 녀석의 클릭이벤트가 발생했을떄
@@ -32,22 +32,10 @@
 <body>
 		<div th:include="/include/menu::sidemenu" id="aside"></div> <!--jsp include 시  : jsp:include page="" -->
 
-	
-	<h1>게시판</h1>
-	<br>
-	<a th:href="@{/boardList(currentPage =1, searchWord=${searchWord})}">처음페이지</a>
-	
-	<!-- 페이지가 -(마이너스) 넘어가지않게 if문 설정 -->
-	<a th:if="${currentPage >= 2}" th:href="@{/boardList(currentPage=${currentPage - 1}, searchWord=${searchWord})}">이전페이지</a>
-	<a th:unless="${currentPage >= 2}" th:href="@{/boardList(currentPage =1, searchWord=${searchWord})}">이전페이지</a>
-	
-	<!-- 페이지가 마지막페이지를 넘어가지 않게 if문설정 -->
-	<a th:if="${currentPage<lastPage}" th:href="@{/boardList(currentPage=${currentPage +1}, searchWord=${searchWord})}">다음페이지</a>
-	<a th:unless="${currentPage<lastPage}" th:href="@{/boardList(currentPage=${lastPage}, searchWord=${searchWord})}">다음페이지</a>
-		
-	<a th:href="@{/boardList(currentPage=${lastPage}, searchWord=${searchWord})}">마지막페이지</a>
-		
-		<table class="table table table-hover table-bordered" style="width:1000px; margin:auto; text-align:center;">
+	<div class="container">
+	<h1 align="center">게시판</h1>
+	<br><br>
+		<table class="table table table-hover table-bordered" style="text-align:center;">
 			<thead>
 				<tr>
 					<th>글번호</th>
@@ -62,6 +50,8 @@
 					<td th:text="${list.boardNo}"></td>
 					<td><a th:href="@{/BoardOne(boardNo=${list.boardNo},currentPage=${currentPage})}" th:text="${list.boardTitle}"></a></td>
 					<td th:text="${list.boardContent}"></td>
+					
+					
 					<td th:text="${list.memberId}"></td>
 					<td th:text="${list.boardDate}"></td>
 					
@@ -69,14 +59,38 @@
 			</tbody>
 		</table>
 		<div>
-			<a th:href="@{/addBoard}" class="btn btn-primary">글작성</a>
-		</div><br>
+			<a th:href="@{/addBoard}" class="btn btn-primary">글작성</a> &nbsp;
+		
+			<a th:href="@{/boardList(currentPage =1, searchWord=${searchWord})}" class="btn btn-primary">처음페이지</a> &nbsp;
+	
+	
+	
+			<!-- 페이지가 -(마이너스) 넘어가지않게 if문 설정 -->
+			<a th:if="${currentPage >= 2}" th:href="@{/boardList(currentPage=${currentPage - 1}, searchWord=${searchWord})}" class="btn btn-primary">이전페이지</a>
+			<a th:unless="${currentPage >= 2}" th:href="@{/boardList(currentPage =1, searchWord=${searchWord})}" class="btn btn-primary">이전페이지</a> &nbsp;
+	
+	
+	
+			<!-- 페이지가 마지막페이지를 넘어가지 않게 if문설정 -->
+			<a th:if="${currentPage<lastPage}" th:href="@{/boardList(currentPage=${currentPage +1}, searchWord=${searchWord})}" class="btn btn-primary">다음페이지</a>
+			<a th:unless="${currentPage<lastPage}" th:href="@{/boardList(currentPage=${lastPage}, searchWord=${searchWord})}" class="btn btn-primary">다음페이지</a> &nbsp;
+		
+	
+	
+			<a th:href="@{/boardList(currentPage=${lastPage}, searchWord=${searchWord})}" class="btn btn-primary">마지막페이지</a>
+			</div><br><br>
+		
 		<!-- 검색기능 -->
 	<form id="searchform" method="get" th:action="@{/boardList}">
-		<input type="text" name="searchWord" id="searchWord" class="form-control">
 		<div>
-			<button type="button" id="searchbtn">검색하기</button>
+		<input type="text" name="searchWord" class="form-control" placeholder="제목을 입력하세요.">
+		<div>
+			<button type="button" id="searchbtn" class="btn btn-secondary">검색하기</button>
+		</div>
+		
 		</div>
 	</form>	
+	</div>
+	
 </body>
 </html>

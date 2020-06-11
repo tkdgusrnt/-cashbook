@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gdu.cashbook.mapper.CashMapper;
 import com.gdu.cashbook.mapper.MemberMapper;
 import com.gdu.cashbook.mapper.MemberidMapper;
 import com.gdu.cashbook.vo.LoginMember;
@@ -30,11 +31,38 @@ public class MemberService {
 	@Autowired private MemberMapper memberMapper;
 	@Autowired private MemberidMapper memberidMapper;
 	@Autowired private JavaMailSender javaMailSender;
+	@Autowired private CashMapper cashMapper;
 	
 	//경로 : linux(/), window(\\)
 	@Value("C:\\spring eclipse\\spring work_space\\maven.1590971338805\\cashbook\\src\\main\\resources\\static\\upload\\")
 	private String path;
 	
+	//멤버강퇴
+	public int removeAdmin(String memberId) {
+		String memberPic = memberMapper.selectMemberPic(memberId);
+		File file = new File(path+memberPic);
+		
+		//테이블에서 삭제
+		int removeResult = memberMapper.removeAdmin(memberId);
+		System.out.println(removeResult + "<----removeResult");
+		
+		int insertResult =0;
+		if(removeResult ==1) {
+			//삭제할 id memberid 테이블에 추가
+			Memberid memberid = new Memberid();
+			memberid.setMemberId(memberId);
+			insertResult = memberidMapper.insertMemberid(memberid);
+		}
+		System.out.println(insertResult + "<-------insertResult");
+		
+		//member테이블에서 삭제 및 memberid 테이블 추가 성공시 파일도 물리적으로 삭제
+		if(insertResult ==1 && file.exists() && !memberPic.equals("default.jpg")) {
+			file.delete();
+		}
+		return insertResult;
+		
+		
+	}
 	
 	//멤버 리스트 출력하기
 	public Map<String, Object> getMemberListAll(Map<String, Object> mappp){

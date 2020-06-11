@@ -46,6 +46,7 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style th:include="/include/menu::side"></style>
 <script>
 	$(document).ready(function () {
 		//id가 memberListbtn의 클릭이벤트가 발생했을떄
@@ -66,34 +67,9 @@
 	
 		<div th:include="/include/menu::sidemenu" id="aside"></div> <!--jsp include 시  : jsp:include page="" -->
 	<br>
-		<div>
-			<a th:href="@{/MemberList(currentPage=1)}">처음페이지</a>
-		</div>
-		<!-- 1페이지에서 이전페이지로 넘어가지않게 if문설정 -->
-		<div>
-			<a th:if="${currentPage >=2}" th:href="@{/MemberList(currentPage=${currentPage-1})}">이전페이지</a>
-			<a th:unless="${currentPage >=2}" th:href="@{/MemberList(currentPage=1)}">이전페이지</a>
-		
-		<!-- 마지막페이지에서 다음페이지로 넘어가지않게 if 문설정 -->
-		<!-- <div>
-			<a th:if="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${currentPage+1})}">다음페이지</a>
-			<th:block th:if="${currentPage == null}">
-				<a th:href="@{/MemberList(currentPage=${2})}">다음페이지</a>
-			</th:block>
-			<th:block th:if="${currentPage != null}">
-				<a th:if="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${currentPage+1})}">다음페이지</a>	
-			</th:block>
-			<a th:if="${currentPage < lastPage}" th:href="@{/MemberList(currentPage=${currentPage+1})}">다음페이지</a>
-			<a th:unless="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${lastPage})}">다음페이지</a>
-		</div> -->
-			<a th:if="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${currentPage+1})}">다음페이지</a>
-			<a th:unless="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${lastPage})}">다음페이지</a>
-		
-		</div>
-		<div>
-			<a th:href="@{/MemberList(currentPage=${lastPage})}">마지막페이지</a>
-		</div>
-		<table>
+	<div class="container">
+	
+		<table class="table">
 			<thead>
 				<tr>
 					<th>아이디</th>
@@ -119,6 +95,32 @@
 				</tr>
 			</tbody>
 		</table>
+		<div>
+			<a th:href="@{/MemberList(currentPage=1)}" class="btn btn-primary">처음페이지</a> &nbsp;&nbsp;
+		
+		<!-- 1페이지에서 이전페이지로 넘어가지않게 if문설정 -->
+		
+			<a th:if="${currentPage >=2}" th:href="@{/MemberList(currentPage=${currentPage-1})}" class="btn btn-primary">이전페이지</a>
+			<a th:unless="${currentPage >=2}" th:href="@{/MemberList(currentPage=1)}" class="btn btn-primary">이전페이지</a>&nbsp;&nbsp;
+		
+		<!-- 마지막페이지에서 다음페이지로 넘어가지않게 if 문설정 -->
+		<!-- <div>
+			<a th:if="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${currentPage+1})}">다음페이지</a>
+			<th:block th:if="${currentPage == null}">
+				<a th:href="@{/MemberList(currentPage=${2})}">다음페이지</a>
+			</th:block>
+			<th:block th:if="${currentPage != null}">
+				<a th:if="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${currentPage+1})}">다음페이지</a>	
+			</th:block>
+			<a th:if="${currentPage < lastPage}" th:href="@{/MemberList(currentPage=${currentPage+1})}">다음페이지</a>
+			<a th:unless="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${lastPage})}">다음페이지</a>
+		</div> -->
+			<a th:if="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${currentPage+1})}" class="btn btn-primary">다음페이지</a>
+			<a th:unless="${currentPage<lastPage}" th:href="@{/MemberList(currentPage=${lastPage})}" class="btn btn-primary">다음페이지</a>&nbsp;&nbsp;
+		
+		
+			<a th:href="@{/MemberList(currentPage=${lastPage})}" class="btn btn-primary">마지막페이지</a>
+		</div>
 		<br>
 		<!-- 검색 -->
 		<form id="memberListForm" method="get" th:action="@{MemberList}">
@@ -127,5 +129,6 @@
 			<button type="button" id="memberListbtn">검색</button>
 		</div>
 		</form>
+	</div>	
 </body>
 </html>

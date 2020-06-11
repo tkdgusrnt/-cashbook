@@ -10,7 +10,7 @@
 </select>
 
 <!-- 멤버 한명 삭제(관리자만가능) -->
-<delete id="removeAdmin" parameterType="String">
+<delete id="removeAdmin" parameterType="com.gdu.cashbook.vo.Memberid">
 	DELETE FROM member
 	WHERE member_id = #{memberId}
 </delete>
@@ -123,8 +123,7 @@
  <!-- 로그인 아이디 확인 -->
  <select id="selectLoginMember" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.LoginMember">
  	SELECT
- 		member_id memberId,
- 		member_pw memberPw
+ 		member_id memberId
  	FROM member
  	WHERE member_id = #{memberId}
  	AND member_pw = PASSWORD(#{memberPw})
