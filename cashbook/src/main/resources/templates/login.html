@@ -76,14 +76,14 @@
 <div class="container">
 <div class="title">
 	<h1>로그인</h1>
-	<form id="loginForm" method="post" action="/login">
+	<form id="loginForm" method="post" th:action="@{/login}"> 
 		<div class="form-group">
-			<input type="text" id="memberId" name="memberId" placeholder="아이디" class="form-control">
+			<input type="text" id="memberId" name="memberId" placeholder="하이하이" class="form-control">
 			<span id="idHelper"></span>
 		</div>
 		
 		<div class="form-group">
-			<input type="password" id="memberPw" name="memberPw" placeholder="비밀번호" class="form-control">
+			<input type="password" id="memberPw" name="memberPw" placeholder="1111" class="form-control">
 			<span id="pwHelper"></span>
 		</div>
 		

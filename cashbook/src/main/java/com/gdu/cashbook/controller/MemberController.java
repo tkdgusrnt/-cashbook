@@ -191,7 +191,7 @@ public class MemberController {	//회원가입폼을 만들기 위한
 			System.out.println("아이디를 사용할수없어요.");
 			model.addAttribute("msg", "사용중인 아이디입니다");
 		}
-		return "addmember";
+		return "addMember";
 	}
 	
 	@GetMapping("/login")

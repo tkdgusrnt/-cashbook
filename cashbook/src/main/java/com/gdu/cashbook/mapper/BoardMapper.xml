@@ -6,7 +6,7 @@
 	
 	<!-- 게시글 업데이트 -->
 	<update id="modifyBoard">
-		UPDATE board
+		UPDATE cashbook_board
 		SET
 			board_title = #{boardTitle},
 			board_content = #{boardContent}
@@ -15,13 +15,13 @@
 	
 	<!-- 게시글 삭제하기 -->
 	<delete id="removeBoard">
-		DELETE FROM board
+		DELETE FROM cashbook_board
 		WHERE board_no=#{boardNo}
 	</delete>
 	
 	<!-- 게시글 작성하기 -->
 	<insert id="addBoard" parameterType="com.gdu.cashbook.vo.Board">
-		INSERT INTO board(
+		INSERT INTO cashbook_board(
 			board_title,
 			board_content,
 			member_id,
@@ -45,7 +45,7 @@
 			board_content boardContent,
 			member_id memberId,
 			board_date boardDate
-		FROM board
+		FROM cashbook_board
 		WHERE board_title LIKE CONCAT('%',#{searchWord},'%')
 		ORDER BY board_no DESC
 		LIMIT #{beginRow}, #{rowPerPage}
@@ -55,7 +55,7 @@
 	<select id="getTotalRow" resultType="int">
 		SELECT
 			COUNT(*)
-		FROM board
+		FROM cashbook_board
 		WHERE board_title Like CONCAT('%',#{searchWord},'%')
 	</select>
 	
@@ -68,7 +68,7 @@
 			member_id memberId,
 			board_date boardDate,
 			board_pic boardPic
-			FROM board
+			FROM cashbook_board
 			WHERE board_no =#{boardNo}
 	</select>
 	
@@ -76,13 +76,13 @@
 	<select id="firstBoardNo" resultType="int">
 		SELECT
 			MIN(board_no)
-		FROM board	
+		FROM cashbook_board	
 	</select>
 	<!-- 이전, 다음을위한 마지막페이지 -->
 	<select id="lastBoardNo" resultType="int">
 		SELECT
 			MAX(board_no)
-		FROM board	
+		FROM cashbook_board	
 	</select>
 	
 	<!-- LAG를 이용해 이전넘버를 가져오는 쿼리 -->
@@ -90,7 +90,7 @@
 		SELECT IFNULL(b.boardNo,#{boardNo})
 		FROM ( SELECT board_no,
 				LAG(board_no) OVER (ORDER BY board_no) AS boardNo
-		FROM board		
+		FROM cashbook_board		
 		ORDER BY board_no	
 		)b
 		WHERE board_no = #{boardNo}
@@ -100,7 +100,7 @@
 		SELECT IFNULL(b.boardNo , #{boardNo})
 		FROM (SELECT board_no,
 				LEAD(board_no) OVER (ORDER BY board_no) AS boardNo
-		FROM board	
+		FROM cashbook_board	
 		ORDER BY board_no	
 		)b
 		WHERE board_no = #{boardNo}

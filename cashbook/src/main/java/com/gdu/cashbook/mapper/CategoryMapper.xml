@@ -6,6 +6,6 @@
 	<select id="selectCategoryList" resultType="com.gdu.cashbook.vo.Category">
 		SELECT
 			category_name categoryName
-		FROM category
+		FROM cashbook_category
 	</select>
 </mapper>

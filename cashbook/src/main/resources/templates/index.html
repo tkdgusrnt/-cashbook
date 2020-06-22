@@ -55,14 +55,14 @@ body.position{
 	<h1>가게부</h1>
   	
 	<div th:if="${session.loginMember != null}">
-		<a type="button" href="/logout">로그아웃</a>
+		<a type="button" th:href="@{/logout}">로그아웃</a>
 	</div>
 	
 	<div th:if="${session.loginMember == null}">
-		<a type = "button" href="/login">로그인</a>
+		<a type = "button" th:href="@{/login}">로그인</a>
 	</div>
 	
-	<div><a type="button" href="/addMember">회원가입</a></div>
+	<div><a type="button" th:href="@{/addMember}">회원가입</a></div>
 	
 	<div>본 콘텐츠의 저작권은 제공처에 있으며, 이를 무단 이용하는 경우 저작권법 등에 따라 법적 책임을 질 수 있습니다.</div>
 	<div>Copyright © JWsoft Corp. All Rights Reserved.</div>

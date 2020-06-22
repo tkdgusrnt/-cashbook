@@ -10,7 +10,7 @@
 			member_id memberId,
 			comment_content commentContent,
 			board_no boardNo
-		FROM comment
+		FROM cashbook_comment
 		WHERE board_no = #{boardNo}
 		ORDER BY comment_no DESC
 		LIMIT #{beginRow},#{rowPerPage}
@@ -19,7 +19,7 @@
 	<!-- 댓글 총 갯수 -->	
 	<select id="totalComment" parameterType="int" resultType="int">
 		SELECT IFNULL(COUNT(*),0)
-		FROM comment
+		FROM cashbook_comment
 		WHERE board_no = #{boardNo}
 	</select>
 </mapper>

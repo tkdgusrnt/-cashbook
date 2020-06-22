@@ -29,7 +29,7 @@
 		<div th:include="/include/menu::sidemenu"></div> <!--jsp include 시  : jsp:include page="" -->
 			<h1 th:text="${year} + '년 가계부'"></h1>
 			<div>가계부 수정</div>
-		<form id="modifyform" method="post" action="/modifyCash">
+		<form id="modifyform" method="post" th:action="@{/modifyCash}">
 			<input type="hidden" name="cashNo" th:value="${cash.cashNo}">
 			<table class="table">
 			

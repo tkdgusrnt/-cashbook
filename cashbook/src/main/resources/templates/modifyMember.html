@@ -27,7 +27,7 @@
 	<div class="container-fluid">
 	<div class="title">
 		<h1>회원수정</h1>
-		<form id="myform" method="post" action="/modifyMember" enctype="multipart/form-data">
+		<form id="myform" method="post" th:action="@{/modifyMember}" enctype="multipart/form-data">
 			<div class="form-group confirm">
 				이미지
 				<img th:src="@{${'/upload/'+member.memberPic}}">
